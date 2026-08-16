@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ExamLock Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        /* ---------------- HEADER ---------------- */
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .user {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: white;
+            background: #dc2626;
+            padding: 9px 15px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        /* ---------------- MAIN ---------------- */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: #6b7280;
+        }
+
+        /* ---------------- STATS ---------------- */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        /* ---------------- SECTIONS ---------------- */
+
+        .section {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+            font-size: 21px;
+        }
+
+        /* ---------------- FORM ---------------- */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            border-color: #2563eb;
+        }
+
+        .add-btn {
+            margin-top: 18px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ---------------- FLASH MESSAGES ---------------- */
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ---------------- TABLE ---------------- */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f3f4f6;
+            text-align: left;
+            padding: 13px;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .status {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .qr-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #111827;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .qr-btn:hover {
+            background: #374151;
+        }
+
+        /* ---------------- VERIFICATION ---------------- */
+
+        .verification {
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .verification h3 {
+            color: #166534;
+            margin-bottom: 10px;
+        }
+
+        .verification p {
+            margin: 5px 0;
+        }
+
+        .verification strong {
+            color: #111827;
+        }
+
+        /* ---------------- ALERT ---------------- */
+
+        .alert-box {
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            color: #9a3412;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* ---------------- MOBILE ---------------- */
+
+        @media (max-width: 800px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px 12px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .welcome h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+        🔐 ExamLock
+    </div>
+
+    <div class="header-right">
+
+        <div class="user">
+            {{ username }} · {{ role }}
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ==================================================
+     MAIN CONTAINER
+================================================== -->
+
+<main class="container">
+
+    <!-- Welcome -->
+
+    <div class="welcome">
+
+        <h1>
+            Examination Security Dashboard
+        </h1>
+
+        <p>
+            Secure examination paper registration and QR verification.
+        </p>
+
+    </div>
+
+
+    <!-- ==================================================
+         FLASH MESSAGES
+    ================================================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- ==================================================
+         VERIFICATION RESULT
+    ================================================== -->
+
+    {% if verification %}
+
+        <div class="verification">
+
+            <h3>
+                ✅ Paper Verified Successfully
+            </h3>
+
+            <p>
+                <strong>Paper ID:</strong>
+                {{ verification["paper_id"] }}
+            </p>
+
+            <p>
+                <strong>Exam:</strong>
+                {{ verification["exam"] }}
+            </p>
+
+            <p>
+                <strong>Subject:</strong>
+                {{ verification["subject"] }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ verification["status"] }}
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ==================================================
+         ERROR
+    ================================================== -->
+
+    {% if error %}
+
+        <div class="alert-box">
+
+            ❌ {{ error }}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ==================================================
+         STATISTICS
+    ================================================== -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Secured Papers
+            </div>
+
+            <div class="stat-number">
+                {{ secured_papers }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                QR Verifications
+            </div>
+
+            <div class="stat-number">
+                {{ verified_scans }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Security Alerts
+            </div>
+
+            <div class="stat-number">
+                {{ active_alerts }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Total Events
+            </div>
+
+            <div class="stat-number">
+                {{ total_events }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         ADD NEW PAPER
+    ================================================== -->
+
+    <section class="section">
+
+        <h2>
+            ➕ Register New Examination Paper
+        </h2>
+
+        <!-- IMPORTANT:
+             This must match app.py /add-paper
+        -->
+
+        <form action="{{ url_for('add_paper') }}" method="POST">
+
+            <div class="form-grid">
+
+                <div class="input-group">
+
+                    <label for="paper_id">
+                        Paper ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="paper_id"
+                        name="paper_id"
+                        placeholder="Example: PUC-DBMS-001"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="exam">
+                        Exam
+                    </label>
+
+                    <input
+                        type="text"
+                        id="exam"
+                        name="exam"
+                        placeholder="Example: PUC"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        placeholder="Example: DBMS"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="add-btn"
+            >
+                🔒 Secure Paper
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- ==================================================
+         PAPERS
+    ================================================== -->
+
+    <section class="section">
+
+        <h2>
+            📄 Registered Examination Papers
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Paper ID
+                        </th>
+
+                        <th>
+                            Exam
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Created
+                        </th>
+
+                        <th>
+                            QR Code
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% if papers %}
+
+                        {% for paper in papers %}
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        {{ paper["paper_id"] }}
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    {{ paper["exam"] }}
+                                </td>
+
+                                <td>
+                                    {{ paper["subject"] }}
+                                </td>
+
+                                <td>
+
+                                    <span class="status">
+                                        {{ paper["status"] }}
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    {{ paper["created_at"] }}
+                                </td>
+
+                                <td>
+
+                                    <a
+                                        href="{{ url_for('generate_qr', paper_id=paper['paper_id']) }}"
+                                        class="qr-btn"
+                                        target="_blank"
+                                    >
+                                        📱 Generate QR
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="6">
+                                No examination papers registered.
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         SECURITY LOGS
+    ================================================== -->
+
+    <section class="section">
+
+        <h2>
+            📊 Verification Logs
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Paper ID
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                        <th>
+                            User
+                        </th>
+
+                        <th>
+                            Date & Time
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% if logs %}
+
+                        {% for log in logs %}
+
+                            <tr>
+
+                                <td>
+                                    {{ log["paper_id"] }}
+                                </td>
+
+                                <td>
+                                    {{ log["action"] }}
+                                </td>
+
+                                <td>
+                                    {{ log["username"] }}
+                                </td>
+
+                                <td>
+                                    {{ log["created_at"] }}
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="4">
+                                No verification events yet.
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

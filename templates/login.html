@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamLock | Secure Examination System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #eef3f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 900px;
+            max-width: 94%;
+            min-height: 520px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
+        .left {
+            width: 52%;
+            background: #102a43;
+            color: white;
+            padding: 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #4da3ff;
+        }
+
+        .left h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .left p {
+            color: #c9d7e5;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .features {
+            margin-top: 30px;
+        }
+
+        .feature {
+            margin: 13px 0;
+            color: #e8f1fa;
+            font-size: 14px;
+        }
+
+        .right {
+            width: 48%;
+            padding: 55px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right h2 {
+            color: #102a43;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #d7e0e8;
+            border-radius: 10px;
+            outline: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49,130,206,0.1);
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            background: #1677d2;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #0d5fae;
+        }
+
+        .error {
+            background: #fff0f0;
+            color: #c53030;
+            border: 1px solid #fed7d7;
+            padding: 11px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 13px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #9aa8b5;
+            font-size: 12px;
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left,
+            .right {
+                width: 100%;
+            }
+
+            .left {
+                padding: 35px;
+            }
+
+            .right {
+                padding: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+        <div class="logo">EXAM<span>LOCK</span></div>
+
+        <h1>Examination Security System</h1>
+
+        <p>
+            A secure platform designed to protect examination papers,
+            control authorized access and maintain a complete security
+            activity record.
+        </p>
+
+        <div class="features">
+            <div class="feature">🔐 Secure Question Paper Storage</div>
+            <div class="feature">🛡️ Encrypted Examination Data</div>
+            <div class="feature">📱 QR Verification</div>
+            <div class="feature">📊 Security Activity Monitoring</div>
+        </div>
+    </div>
+
+    <div class="right">
+
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Sign in to access the secure examination dashboard.</p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+
+            <label>Username</label>
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">
+                Secure Login
+            </button>
+
+        </form>
+
+        <div class="footer">
+            Protected Examination Environment • EXAMLOCK
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

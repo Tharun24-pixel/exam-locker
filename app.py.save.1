@@ -1,0 +1,89 @@
+@app.route("/verify/<paper_id>")
+def verify_paper(paper_id):
+
+    if "username" not in session:
+        return redirect("/")
+
+    conn = get_db()
+
+    paper = conn.execute("""
+        SELECT *
+        FROM papers
+        WHERE paper_id=?
+    """, (paper_id,)).fetchone()
+
+    # Get actual dashboard statistics
+    papers = conn.execute("""
+        SELECT *
+        FROM papers
+        ORDER BY id DESC
+    """).fetchall()
+
+    logs = conn.execute("""
+        SELECT *
+        FROM logs
+        ORDER BY id DESC
+        LIMIT 25
+    """).fetchall()
+
+    secured_papers = conn.execute("""
+        SELECT COUNT(*)
+        FROM papers
+        WHERE status='SECURED'
+    """).fetchone()[0]
+
+    verified_scans = conn.execute("""
+        SELECT COUNT(*)
+        FROM logs
+        WHERE action='QR verification'
+    """).fetchone()[0]
+
+    active_alerts = conn.execute("""
+        SELECT COUNT(*)
+        FROM logs
+        WHERE risk='HIGH'
+    """).fetchone()[0]
+
+    total_events = conn.execute("""
+        SELECT COUNT(*)
+        FROM logs
+    """).fetchone()[0]
+
+    conn.close()
+
+    if not paper:
+
+        log_activity(
+            session["username"],
+            paper_id,
+            "Invalid QR verification",
+            "HIGH"
+        )
+
+        flash("Invalid paper verification.")
+
+        return redirect("/dashboard")
+
+    # Record successful verification
+    log_activity(
+        session["username"],
+        paper_id,
+        "QR verification",
+        "LOW"
+    )
+
+    return render_template(
+        "dashboard.html",
+        papers=papers,
+        logs=logs,
+        secured_papers=secured_papers,
+        verified_scans=verified_scans,
+        active_alerts=active_alerts,
+        total_events=total_events,
+        username=session["username"],
+        role=session["role"],
+        verification=paper
+    )
+python3 -m py_compile app.py
+
+

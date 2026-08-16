@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ExamLock - Paper Verification</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: #172033;
+            margin-bottom: 25px;
+        }
+
+        .check {
+            width: 75px;
+            height: 75px;
+            margin: auto;
+            border-radius: 50%;
+            background: #e7f7ed;
+            color: #16803c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 18px 0 8px;
+            color: #172033;
+            font-size: 25px;
+        }
+
+        .success {
+            text-align: center;
+            color: #16803c;
+            font-weight: bold;
+            margin-bottom: 28px;
+        }
+
+        .details {
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .value {
+            color: #172033;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .secure {
+            margin-top: 25px;
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            background: #eef6ff;
+            color: #1769aa;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        EXAMLOCK
+    </div>
+
+    <div class="check">
+        ✓
+    </div>
+
+    <h1>Paper Verified Successfully</h1>
+
+    <div class="success">
+        AUTHENTIC EXAMINATION PAPER
+    </div>
+
+    <div class="details">
+
+        <div class="row">
+            <span class="label">Exam</span>
+            <span class="value">{{ paper["exam"] }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Subject</span>
+            <span class="value">{{ paper["subject"] }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Paper ID</span>
+            <span class="value">{{ paper["paper_id"] }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Status</span>
+            <span class="value">{{ paper["status"] }}</span>
+        </div>
+
+    </div>
+
+    <div class="secure">
+        🔒 SECURE PAPER
+    </div>
+
+    <div class="footer">
+        ExamLock Examination Security System
+    </div>
+
+</div>
+
+</body>
+</html>
