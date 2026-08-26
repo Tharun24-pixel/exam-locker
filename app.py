@@ -153,7 +153,7 @@ def login():
             ""
         ).strip()
 
-        if username == "admin" and password == "admin123":
+        if username == "admin" and password == "Nexora":
 
             session["username"] = username
             session["role"] = "Administrator"
