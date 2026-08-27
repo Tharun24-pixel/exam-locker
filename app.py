@@ -8,6 +8,7 @@ from flask import (
     send_file,
     url_for
 )
+
 import sqlite3
 import os
 import io
@@ -20,6 +21,7 @@ from datetime import datetime
 # ============================================================
 
 app = Flask(__name__)
+
 app.secret_key = "examlock-secret-key-2026"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +29,7 @@ DATABASE = os.path.join(BASE_DIR, "examlock.db")
 
 
 # ============================================================
-# DATABASE
+# DATABASE CONNECTION
 # ============================================================
 
 def get_db():
@@ -40,19 +42,23 @@ def now():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+# ============================================================
+# DATABASE INITIALIZATION + MIGRATION
+# ============================================================
+
 def init_db():
 
     conn = get_db()
 
     # --------------------------------------------------------
-    # PAPERS
+    # PAPERS TABLE
     # --------------------------------------------------------
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS papers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             paper_id TEXT UNIQUE NOT NULL,
-            university TEXT,
+            university TEXT DEFAULT '',
             exam TEXT NOT NULL,
             subject TEXT NOT NULL,
             status TEXT DEFAULT 'SECURED',
@@ -61,7 +67,7 @@ def init_db():
     """)
 
     # --------------------------------------------------------
-    # FIX OLD DATABASE
+    # CHECK OLD PAPERS TABLE COLUMNS
     # --------------------------------------------------------
 
     paper_columns = [
@@ -71,14 +77,24 @@ def init_db():
         ).fetchall()
     ]
 
-    # University column old database alli illa andre add agutte
+    # Add University to OLD database
     if "university" not in paper_columns:
-        conn.execute(
-            "ALTER TABLE papers ADD COLUMN university TEXT"
-        )
+
+        conn.execute("""
+            ALTER TABLE papers
+            ADD COLUMN university TEXT DEFAULT ''
+        """)
+
+    # Add created_at if old database doesn't have it
+    if "created_at" not in paper_columns:
+
+        conn.execute("""
+            ALTER TABLE papers
+            ADD COLUMN created_at TEXT
+        """)
 
     # --------------------------------------------------------
-    # LOGS
+    # LOGS TABLE
     # --------------------------------------------------------
 
     conn.execute("""
@@ -92,7 +108,39 @@ def init_db():
     """)
 
     # --------------------------------------------------------
-    # ALERTS
+    # FIX OLD LOGS DATABASE
+    # --------------------------------------------------------
+
+    log_columns = [
+        row["name"]
+        for row in conn.execute(
+            "PRAGMA table_info(logs)"
+        ).fetchall()
+    ]
+
+    if "created_at" not in log_columns:
+
+        conn.execute("""
+            ALTER TABLE logs
+            ADD COLUMN created_at TEXT
+        """)
+
+    if "username" not in log_columns:
+
+        conn.execute("""
+            ALTER TABLE logs
+            ADD COLUMN username TEXT
+        """)
+
+    if "action" not in log_columns:
+
+        conn.execute("""
+            ALTER TABLE logs
+            ADD COLUMN action TEXT
+        """)
+
+    # --------------------------------------------------------
+    # ALERTS TABLE
     # --------------------------------------------------------
 
     conn.execute("""
@@ -105,27 +153,15 @@ def init_db():
     """)
 
     # --------------------------------------------------------
-    # FIX OLD LOG DATABASE
-    # --------------------------------------------------------
-
-    log_columns = [
-        row["name"]
-        for row in conn.execute(
-            "PRAGMA table_info(logs)"
-        ).fetchall()
-    ]
-
-    if "created_at" not in log_columns:
-        conn.execute(
-            "ALTER TABLE logs ADD COLUMN created_at TEXT"
-        )
-
-    # --------------------------------------------------------
     # DEMO PAPER
     # --------------------------------------------------------
 
     demo = conn.execute(
-        "SELECT * FROM papers WHERE paper_id=?",
+        """
+        SELECT *
+        FROM papers
+        WHERE paper_id=?
+        """,
         ("EX-2FA0427E",)
     ).fetchone()
 
@@ -143,15 +179,38 @@ def init_db():
             VALUES (?, ?, ?, ?, ?, ?)
         """, (
             "EX-2FA0427E",
-            "Bangalore University",
+            "Demo University",
             "SSLC",
             "DBMS",
             "SECURED",
             now()
         ))
 
+    # --------------------------------------------------------
+    # FIX EMPTY UNIVERSITY VALUES
+    # --------------------------------------------------------
+
+    conn.execute("""
+        UPDATE papers
+        SET university = 'Not Provided'
+        WHERE university IS NULL
+        OR university = ''
+    """)
+
+    # --------------------------------------------------------
+    # COMMIT
+    # --------------------------------------------------------
+
     conn.commit()
     conn.close()
+
+
+# ============================================================
+# INITIALIZE DATABASE
+# IMPORTANT FOR RENDER / GUNICORN
+# ============================================================
+
+init_db()
 
 
 # ============================================================
@@ -173,7 +232,14 @@ def login():
             ""
         ).strip()
 
-        if username == "admin" and password == "Nexora":
+        # ----------------------------------------------------
+        # ADMIN LOGIN
+        # ----------------------------------------------------
+
+        if (
+            username == "admin"
+            and password in ["admin123", "Nexora"]
+        ):
 
             session["username"] = username
             session["role"] = "Administrator"
@@ -187,7 +253,9 @@ def login():
             "error"
         )
 
-    return render_template("login.html")
+    return render_template(
+        "login.html"
+    )
 
 
 # ============================================================
@@ -219,34 +287,71 @@ def dashboard():
 
     conn = get_db()
 
+    # --------------------------------------------------------
+    # ALL PAPERS
+    # --------------------------------------------------------
+
     papers = conn.execute("""
-        SELECT *
+        SELECT
+            id,
+            paper_id,
+            university,
+            exam,
+            subject,
+            status,
+            created_at
         FROM papers
         ORDER BY id DESC
     """).fetchall()
 
+    # --------------------------------------------------------
+    # RECENT VERIFICATION LOGS
+    # --------------------------------------------------------
+
     logs = conn.execute("""
-        SELECT *
+        SELECT
+            id,
+            paper_id,
+            action,
+            username,
+            created_at
         FROM logs
         ORDER BY id DESC
+        LIMIT 20
     """).fetchall()
+
+    # --------------------------------------------------------
+    # SECURED PAPERS
+    # --------------------------------------------------------
 
     secured_papers = conn.execute("""
         SELECT COUNT(*)
         FROM papers
-        WHERE status='SECURED'
+        WHERE status = 'SECURED'
     """).fetchone()[0]
+
+    # --------------------------------------------------------
+    # QR VERIFICATIONS
+    # --------------------------------------------------------
 
     verified_scans = conn.execute("""
         SELECT COUNT(*)
         FROM logs
-        WHERE action='QR Verification'
+        WHERE action = 'QR Verification'
     """).fetchone()[0]
+
+    # --------------------------------------------------------
+    # ACTIVE ALERTS
+    # --------------------------------------------------------
 
     active_alerts = conn.execute("""
         SELECT COUNT(*)
         FROM alerts
     """).fetchone()[0]
+
+    # --------------------------------------------------------
+    # TOTAL EVENTS
+    # --------------------------------------------------------
 
     total_events = conn.execute("""
         SELECT COUNT(*)
@@ -255,15 +360,27 @@ def dashboard():
 
     conn.close()
 
+    # --------------------------------------------------------
+    # SEND DATA TO DASHBOARD
+    # --------------------------------------------------------
+
     return render_template(
         "dashboard.html",
+
         papers=papers,
+
         logs=logs,
+
         secured_papers=secured_papers,
+
         verified_scans=verified_scans,
+
         active_alerts=active_alerts,
+
         total_events=total_events,
+
         username=session["username"],
+
         role=session["role"]
     )
 
@@ -278,9 +395,16 @@ def verify_paper(paper_id):
     conn = get_db()
 
     paper = conn.execute("""
-        SELECT *
+        SELECT
+            id,
+            paper_id,
+            university,
+            exam,
+            subject,
+            status,
+            created_at
         FROM papers
-        WHERE paper_id=?
+        WHERE paper_id = ?
     """, (paper_id,)).fetchone()
 
     timestamp = now()
@@ -291,6 +415,7 @@ def verify_paper(paper_id):
 
     if paper is None:
 
+        # Create alert
         conn.execute("""
             INSERT INTO alerts (
                 message,
@@ -304,6 +429,7 @@ def verify_paper(paper_id):
             timestamp
         ))
 
+        # Create failed verification log
         conn.execute("""
             INSERT INTO logs (
                 paper_id,
@@ -350,6 +476,10 @@ def verify_paper(paper_id):
     conn.commit()
     conn.close()
 
+    # --------------------------------------------------------
+    # SHOW ONLY SCANNED PAPER
+    # --------------------------------------------------------
+
     return render_template(
         "verification.html",
         paper=paper,
@@ -358,17 +488,39 @@ def verify_paper(paper_id):
 
 
 # ============================================================
-# QR GENERATOR
+# QR CODE GENERATOR
 # ============================================================
 
 @app.route("/qr/<paper_id>")
 def generate_qr(paper_id):
+
+    conn = get_db()
+
+    paper = conn.execute("""
+        SELECT *
+        FROM papers
+        WHERE paper_id = ?
+    """, (paper_id,)).fetchone()
+
+    conn.close()
+
+    if paper is None:
+
+        return "Paper not found", 404
+
+    # --------------------------------------------------------
+    # CURRENT WEBSITE URL
+    # --------------------------------------------------------
 
     base_url = request.host_url.rstrip("/")
 
     verify_url = (
         f"{base_url}/verify/{paper_id}"
     )
+
+    # --------------------------------------------------------
+    # CREATE QR
+    # --------------------------------------------------------
 
     qr = qrcode.QRCode(
         version=1,
@@ -377,18 +529,25 @@ def generate_qr(paper_id):
     )
 
     qr.add_data(verify_url)
-    qr.make(fit=True)
+
+    qr.make(
+        fit=True
+    )
 
     image = qr.make_image(
         fill_color="black",
         back_color="white"
     )
 
+    # --------------------------------------------------------
+    # SAVE QR TO MEMORY
+    # --------------------------------------------------------
+
     buffer = io.BytesIO()
 
     image.save(
         buffer,
-        "PNG"
+        format="PNG"
     )
 
     buffer.seek(0)
@@ -401,7 +560,7 @@ def generate_qr(paper_id):
 
 
 # ============================================================
-# ADD PAPER
+# ADD / SECURE NEW PAPER
 # ============================================================
 
 @app.route(
@@ -410,11 +569,19 @@ def generate_qr(paper_id):
 )
 def add_paper():
 
+    # --------------------------------------------------------
+    # LOGIN CHECK
+    # --------------------------------------------------------
+
     if "username" not in session:
 
         return redirect(
             url_for("login")
         )
+
+    # --------------------------------------------------------
+    # GET FORM DATA
+    # --------------------------------------------------------
 
     paper_id = request.form.get(
         "paper_id",
@@ -436,6 +603,10 @@ def add_paper():
         ""
     ).strip()
 
+    # --------------------------------------------------------
+    # VALIDATION
+    # --------------------------------------------------------
+
     if (
         not paper_id
         or not university
@@ -444,13 +615,17 @@ def add_paper():
     ):
 
         flash(
-            "All fields are required",
+            "Paper ID, University, Exam and Subject are required",
             "error"
         )
 
         return redirect(
             url_for("dashboard")
         )
+
+    # --------------------------------------------------------
+    # DATABASE
+    # --------------------------------------------------------
 
     conn = get_db()
 
@@ -475,6 +650,25 @@ def add_paper():
             now()
         ))
 
+        # ----------------------------------------------------
+        # ADD EVENT LOG
+        # ----------------------------------------------------
+
+        conn.execute("""
+            INSERT INTO logs (
+                paper_id,
+                action,
+                username,
+                created_at
+            )
+            VALUES (?, ?, ?, ?)
+        """, (
+            paper_id,
+            "Paper Secured",
+            session["username"],
+            now()
+        ))
+
         conn.commit()
 
         flash(
@@ -489,7 +683,18 @@ def add_paper():
             "error"
         )
 
-    conn.close()
+    except Exception as e:
+
+        conn.rollback()
+
+        flash(
+            f"Database error: {str(e)}",
+            "error"
+        )
+
+    finally:
+
+        conn.close()
 
     return redirect(
         url_for("dashboard")
@@ -497,7 +702,7 @@ def add_paper():
 
 
 # ============================================================
-# OLD DASHBOARD SUPPORT
+# OLD CREATE-PAPER SUPPORT
 # ============================================================
 
 @app.route(
@@ -510,12 +715,20 @@ def create_paper():
 
 
 # ============================================================
+# HEALTH CHECK
+# ============================================================
+
+@app.route("/health")
+def health():
+
+    return "ExamLock is running successfully."
+
+
+# ============================================================
 # SERVER
 # ============================================================
 
 if __name__ == "__main__":
-
-    init_db()
 
     print("")
     print("======================================")
@@ -523,7 +736,7 @@ if __name__ == "__main__":
     print("======================================")
     print("Examination Security System")
     print("Local Server: http://127.0.0.1:5000")
-    print("Admin Login: admin / Nexora")
+    print("Admin Login: admin / admin123")
     print("======================================")
     print("")
 
