@@ -29,7 +29,7 @@ DATABASE = os.path.join(BASE_DIR, "examlock.db")
 
 
 # ============================================================
-# DATABASE
+# DATABASE CONNECTION
 # ============================================================
 
 def get_db():
@@ -37,6 +37,10 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+
+# ============================================================
+# CURRENT DATE / TIME
+# ============================================================
 
 def now():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -50,9 +54,9 @@ def init_db():
 
     conn = get_db()
 
-    # --------------------------------------------------------
+    # ========================================================
     # PAPERS TABLE
-    # --------------------------------------------------------
+    # ========================================================
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS papers (
@@ -66,9 +70,9 @@ def init_db():
         )
     """)
 
-    # --------------------------------------------------------
+    # ========================================================
     # PAPER TABLE MIGRATION
-    # --------------------------------------------------------
+    # ========================================================
 
     paper_columns = [
         row["name"]
@@ -89,9 +93,9 @@ def init_db():
             ADD COLUMN created_at TEXT
         """)
 
-    # --------------------------------------------------------
+    # ========================================================
     # LOGS TABLE
-    # --------------------------------------------------------
+    # ========================================================
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS logs (
@@ -103,9 +107,9 @@ def init_db():
         )
     """)
 
-    # --------------------------------------------------------
+    # ========================================================
     # LOG TABLE MIGRATION
-    # --------------------------------------------------------
+    # ========================================================
 
     log_columns = [
         row["name"]
@@ -132,9 +136,15 @@ def init_db():
             ADD COLUMN action TEXT
         """)
 
-    # --------------------------------------------------------
+    if "verified_by" not in log_columns:
+        conn.execute("""
+            ALTER TABLE logs
+            ADD COLUMN verified_by TEXT DEFAULT ''
+        """)
+
+    # ========================================================
     # ALERTS TABLE
-    # --------------------------------------------------------
+    # ========================================================
 
     conn.execute("""
         CREATE TABLE IF NOT EXISTS alerts (
@@ -145,9 +155,9 @@ def init_db():
         )
     """)
 
-    # --------------------------------------------------------
+    # ========================================================
     # DEMO PAPER
-    # --------------------------------------------------------
+    # ========================================================
 
     demo = conn.execute("""
         SELECT *
@@ -176,9 +186,9 @@ def init_db():
             now()
         ))
 
-    # --------------------------------------------------------
+    # ========================================================
     # FIX EMPTY UNIVERSITY
-    # --------------------------------------------------------
+    # ========================================================
 
     conn.execute("""
         UPDATE papers
@@ -187,9 +197,28 @@ def init_db():
         OR university = ''
     """)
 
+    # ========================================================
+    # FIX OLD LOGS
+    # ========================================================
+
+    conn.execute("""
+        UPDATE logs
+        SET verified_by = username
+        WHERE (
+            verified_by IS NULL
+            OR verified_by = ''
+        )
+        AND action = 'QR Verification'
+        AND username IS NOT NULL
+    """)
+
     conn.commit()
     conn.close()
 
+
+# ============================================================
+# INITIALIZE DATABASE
+# ============================================================
 
 init_db()
 
@@ -262,9 +291,9 @@ def dashboard():
 
     conn = get_db()
 
-    # --------------------------------------------------------
+    # ========================================================
     # ALL PAPERS
-    # --------------------------------------------------------
+    # ========================================================
 
     papers = conn.execute("""
         SELECT
@@ -279,9 +308,9 @@ def dashboard():
         ORDER BY id DESC
     """).fetchall()
 
-    # --------------------------------------------------------
-    # RECENT VERIFICATION / SYSTEM LOGS
-    # --------------------------------------------------------
+    # ========================================================
+    # RECENT LOGS
+    # ========================================================
 
     logs = conn.execute("""
         SELECT
@@ -289,15 +318,16 @@ def dashboard():
             paper_id,
             action,
             username,
+            verified_by,
             created_at
         FROM logs
         ORDER BY id DESC
         LIMIT 20
     """).fetchall()
 
-    # --------------------------------------------------------
+    # ========================================================
     # SECURED PAPERS
-    # --------------------------------------------------------
+    # ========================================================
 
     secured_papers = conn.execute("""
         SELECT COUNT(*)
@@ -305,9 +335,9 @@ def dashboard():
         WHERE status = 'SECURED'
     """).fetchone()[0]
 
-    # --------------------------------------------------------
+    # ========================================================
     # QR VERIFICATIONS
-    # --------------------------------------------------------
+    # ========================================================
 
     verified_scans = conn.execute("""
         SELECT COUNT(*)
@@ -315,18 +345,18 @@ def dashboard():
         WHERE action = 'QR Verification'
     """).fetchone()[0]
 
-    # --------------------------------------------------------
+    # ========================================================
     # ACTIVE ALERTS
-    # --------------------------------------------------------
+    # ========================================================
 
     active_alerts = conn.execute("""
         SELECT COUNT(*)
         FROM alerts
     """).fetchone()[0]
 
-    # --------------------------------------------------------
+    # ========================================================
     # TOTAL EVENTS
-    # --------------------------------------------------------
+    # ========================================================
 
     total_events = conn.execute("""
         SELECT COUNT(*)
@@ -352,10 +382,17 @@ def dashboard():
 # QR PAPER VERIFICATION
 # ============================================================
 
-@app.route("/verify/<paper_id>")
+@app.route(
+    "/verify/<paper_id>",
+    methods=["GET", "POST"]
+)
 def verify_paper(paper_id):
 
     conn = get_db()
+
+    # ========================================================
+    # FIND PAPER
+    # ========================================================
 
     paper = conn.execute("""
         SELECT
@@ -370,13 +407,13 @@ def verify_paper(paper_id):
         WHERE paper_id = ?
     """, (paper_id,)).fetchone()
 
-    timestamp = now()
-
-    # --------------------------------------------------------
+    # ========================================================
     # PAPER NOT FOUND
-    # --------------------------------------------------------
+    # ========================================================
 
     if paper is None:
+
+        timestamp = now()
 
         conn.execute("""
             INSERT INTO alerts (
@@ -396,13 +433,15 @@ def verify_paper(paper_id):
                 paper_id,
                 action,
                 username,
+                verified_by,
                 created_at
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         """, (
             paper_id,
             "Failed Verification",
             "Exam Center",
+            "Unknown",
             timestamp
         ))
 
@@ -412,35 +451,140 @@ def verify_paper(paper_id):
         return render_template(
             "verification.html",
             paper=None,
-            error="Paper not found"
+            university="Unknown",
+            error="Paper not found",
+            verified_by="Unknown"
         ), 404
 
-    # --------------------------------------------------------
-    # SUCCESSFUL VERIFICATION
-    # --------------------------------------------------------
+    # ========================================================
+    # UNIVERSITY NAME
+    # ========================================================
+
+    university = paper["university"]
+
+    if not university:
+        university = "Not Provided"
+
+    # ========================================================
+    # GET REQUEST
+    # ========================================================
+
+    if request.method == "GET":
+
+        college_from_url = request.args.get(
+            "college",
+            ""
+        ).strip()
+
+        conn.close()
+
+        return render_template(
+            "verification.html",
+            paper=paper,
+
+            # UNIVERSITY IS NOW SENT SEPARATELY
+            university=university,
+
+            error=None,
+            verified_by=college_from_url
+        )
+
+    # ========================================================
+    # POST REQUEST
+    # ========================================================
+
+    verified_by = request.form.get(
+        "verified_by",
+        ""
+    ).strip()
+
+    if not verified_by:
+
+        verified_by = request.form.get(
+            "college",
+            ""
+        ).strip()
+
+    if not verified_by:
+
+        verified_by = request.form.get(
+            "exam_center",
+            ""
+        ).strip()
+
+    # ========================================================
+    # VALIDATION
+    # ========================================================
+
+    if not verified_by:
+
+        conn.close()
+
+        return render_template(
+            "verification.html",
+            paper=paper,
+            university=university,
+            error="Please enter the College / Exam Center name.",
+            verified_by=""
+        )
+
+    # ========================================================
+    # SECURITY LIMIT
+    # ========================================================
+
+    if len(verified_by) > 150:
+
+        conn.close()
+
+        return render_template(
+            "verification.html",
+            paper=paper,
+            university=university,
+            error="College / Exam Center name is too long.",
+            verified_by=verified_by
+        )
+
+    timestamp = now()
+
+    # ========================================================
+    # SUCCESSFUL QR VERIFICATION
+    # ========================================================
 
     conn.execute("""
         INSERT INTO logs (
             paper_id,
             action,
             username,
+            verified_by,
             created_at
         )
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
     """, (
         paper_id,
         "QR Verification",
-        "Exam Center",
+        verified_by,
+        verified_by,
         timestamp
     ))
 
     conn.commit()
     conn.close()
 
+    # ========================================================
+    # SHOW VERIFIED PAPER
+    # ========================================================
+
     return render_template(
         "verification.html",
         paper=paper,
-        error=None
+
+        # UNIVERSITY NAME
+        university=university,
+
+        error=None,
+        verified_by=verified_by,
+        verification_time=timestamp,
+        verification_success=True
     )
 
 
@@ -465,11 +609,19 @@ def generate_qr(paper_id):
 
         return "Paper not found", 404
 
+    # ========================================================
+    # VERIFICATION URL
+    # ========================================================
+
     base_url = request.host_url.rstrip("/")
 
     verify_url = (
         f"{base_url}/verify/{paper_id}"
     )
+
+    # ========================================================
+    # CREATE QR
+    # ========================================================
 
     qr = qrcode.QRCode(
         version=1,
@@ -488,6 +640,10 @@ def generate_qr(paper_id):
         back_color="white"
     )
 
+    # ========================================================
+    # STORE IMAGE IN MEMORY
+    # ========================================================
+
     buffer = io.BytesIO()
 
     image.save(
@@ -505,7 +661,7 @@ def generate_qr(paper_id):
 
 
 # ============================================================
-# ADD / SECURE PAPER
+# ADD SECURE PAPER
 # ============================================================
 
 @app.route(
@@ -520,16 +676,18 @@ def add_paper():
             url_for("login")
         )
 
+    # ========================================================
+    # FORM DATA
+    # ========================================================
+
     paper_id = request.form.get(
         "paper_id",
         ""
     ).strip()
 
-    # University is optional in the new dashboard.
-    # If not supplied, save "Not Provided".
     university = request.form.get(
         "university",
-        "Not Provided"
+        ""
     ).strip()
 
     exam = request.form.get(
@@ -542,21 +700,19 @@ def add_paper():
         ""
     ).strip()
 
-    if not university:
-        university = "Not Provided"
-
-    # --------------------------------------------------------
+    # ========================================================
     # VALIDATION
-    # --------------------------------------------------------
+    # ========================================================
 
     if (
         not paper_id
+        or not university
         or not exam
         or not subject
     ):
 
         flash(
-            "Paper ID, Exam and Subject are required",
+            "Paper ID, University, Exam and Subject are required",
             "error"
         )
 
@@ -564,13 +720,13 @@ def add_paper():
             url_for("dashboard")
         )
 
+    # ========================================================
+    # DATABASE
+    # ========================================================
+
     conn = get_db()
 
     try:
-
-        # ----------------------------------------------------
-        # INSERT PAPER
-        # ----------------------------------------------------
 
         conn.execute("""
             INSERT INTO papers (
@@ -591,22 +747,20 @@ def add_paper():
             now()
         ))
 
-        # ----------------------------------------------------
-        # CREATE PAPER SECURED LOG
-        # ----------------------------------------------------
-
         conn.execute("""
             INSERT INTO logs (
                 paper_id,
                 action,
                 username,
+                verified_by,
                 created_at
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         """, (
             paper_id,
             "Paper Secured",
             session["username"],
+            "",
             now()
         ))
 
@@ -618,8 +772,6 @@ def add_paper():
         )
 
     except sqlite3.IntegrityError:
-
-        conn.rollback()
 
         flash(
             "Paper ID already exists",
