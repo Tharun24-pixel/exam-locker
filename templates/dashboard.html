@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ExamLock Dashboard</title>
+    <title>ExamLock | Security Dashboard</title>
 
     <style>
         * {
@@ -15,18 +15,20 @@
         }
 
         body {
-            background: #050505;
-            color: #fff;
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
         }
+
+        /* ================= SIDEBAR ================= */
 
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
-            width: 250px;
+            width: 245px;
             height: 100vh;
-            background: #0b0b0b;
+            background: #050505;
             border-right: 1px solid #222;
             padding: 25px 18px;
             z-index: 1000;
@@ -34,22 +36,22 @@
 
         .logo {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 42px;
         }
 
         .logo h1 {
-            font-size: 27px;
-            letter-spacing: 1px;
+            font-size: 28px;
+            color: #ffffff;
         }
 
-        .logo span {
+        .logo h1 span {
             color: #00a8ff;
         }
 
         .logo p {
             color: #777;
             font-size: 10px;
-            margin-top: 6px;
+            margin-top: 7px;
             letter-spacing: 1px;
         }
 
@@ -68,14 +70,15 @@
             padding: 14px;
             color: #999;
             text-decoration: none;
-            border-radius: 10px;
+            border-radius: 9px;
             font-size: 14px;
+            transition: 0.2s;
         }
 
         .menu a:hover,
         .menu a.active {
             background: #151515;
-            color: #fff;
+            color: #ffffff;
         }
 
         .menu a.active {
@@ -85,6 +88,7 @@
         .icon {
             width: 22px;
             text-align: center;
+            font-size: 17px;
         }
 
         .logout {
@@ -98,8 +102,10 @@
             color: #ff5555;
         }
 
+        /* ================= MAIN ================= */
+
         .main {
-            margin-left: 250px;
+            margin-left: 245px;
             padding: 30px;
         }
 
@@ -111,7 +117,8 @@
         }
 
         .topbar h2 {
-            font-size: 28px;
+            font-size: 29px;
+            color: #ffffff;
         }
 
         .topbar p {
@@ -124,8 +131,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: #101010;
-            border: 1px solid #222;
+            background: #0d0d0d;
+            border: 1px solid #252525;
             padding: 9px 15px;
             border-radius: 30px;
         }
@@ -133,18 +140,19 @@
         .admin-circle {
             width: 36px;
             height: 36px;
-            background: #00a8ff;
-            color: #000;
+            background: #ffffff;
+            color: #000000;
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             font-weight: bold;
         }
 
         .admin-info strong {
             display: block;
             font-size: 13px;
+            color: #ffffff;
         }
 
         .admin-info small {
@@ -152,11 +160,13 @@
             font-size: 11px;
         }
 
+        /* ================= FLASH ================= */
+
         .flash {
             padding: 13px 16px;
-            border-radius: 10px;
+            border-radius: 9px;
             margin-bottom: 18px;
-            background: #111;
+            background: #101010;
             border: 1px solid #333;
             font-size: 13px;
         }
@@ -171,6 +181,8 @@
             border-color: #ff5555;
         }
 
+        /* ================= STATISTICS ================= */
+
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -179,7 +191,7 @@
         }
 
         .card {
-            background: #0d0d0d;
+            background: #080808;
             border: 1px solid #222;
             border-radius: 14px;
             padding: 22px;
@@ -187,6 +199,7 @@
 
         .stat-card {
             position: relative;
+            overflow: hidden;
         }
 
         .label {
@@ -196,7 +209,8 @@
         }
 
         .stat-card h3 {
-            font-size: 30px;
+            color: #ffffff;
+            font-size: 31px;
         }
 
         .small {
@@ -210,12 +224,14 @@
             right: 20px;
             top: 20px;
             font-size: 25px;
-            opacity: .5;
+            opacity: 0.5;
         }
+
+        /* ================= CONTENT ================= */
 
         .content-grid {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1.55fr 1fr;
             gap: 20px;
         }
 
@@ -228,7 +244,15 @@
 
         .card-header h3 {
             font-size: 17px;
+            color: #ffffff;
         }
+
+        .card-header span {
+            color: #666;
+            font-size: 11px;
+        }
+
+        /* ================= TABLE ================= */
 
         .table-container {
             width: 100%;
@@ -238,6 +262,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 650px;
         }
 
         th {
@@ -249,7 +274,8 @@
         }
 
         td {
-            padding: 13px 8px;
+            color: #ffffff;
+            padding: 14px 8px;
             border-bottom: 1px solid #171717;
             font-size: 12px;
         }
@@ -263,9 +289,10 @@
             display: inline-block;
             padding: 5px 9px;
             border-radius: 20px;
-            font-size: 10px;
             background: #10251c;
             color: #00d084;
+            font-size: 10px;
+            font-weight: bold;
         }
 
         .failed {
@@ -273,17 +300,86 @@
             color: #ff5555;
         }
 
+        /* ================= QR BUTTON ================= */
+
+        .qr-btn {
+            display: inline-block;
+            padding: 7px 11px;
+            background: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .qr-btn:hover {
+            background: #00a8ff;
+            color: #000000;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 13px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #999;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            background: #030303;
+            color: #ffffff;
+            border: 1px solid #292929;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #00a8ff;
+        }
+
+        input::placeholder {
+            color: #555;
+        }
+
+        .secure-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #000000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .secure-btn:hover {
+            background: #00a8ff;
+        }
+
+        /* ================= QUICK ACTIONS ================= */
+
         .action-box {
-            background: #111;
+            background: #101010;
             border: 1px solid #252525;
-            border-radius: 12px;
-            padding: 18px;
+            border-radius: 11px;
+            padding: 17px;
             margin-bottom: 12px;
         }
 
         .action-box h4 {
-            margin-bottom: 6px;
+            color: #ffffff;
             font-size: 14px;
+            margin-bottom: 6px;
         }
 
         .action-box p {
@@ -292,17 +388,23 @@
             line-height: 1.5;
         }
 
-        .action-box a {
+        .action-link {
             display: inline-block;
             margin-top: 12px;
-            background: #00a8ff;
-            color: #000;
-            text-decoration: none;
             padding: 9px 13px;
+            background: #ffffff;
+            color: #000000;
+            text-decoration: none;
             border-radius: 7px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
         }
+
+        .action-link:hover {
+            background: #00a8ff;
+        }
+
+        /* ================= SYSTEM ================= */
 
         .system {
             margin-top: 20px;
@@ -325,11 +427,6 @@
             font-size: 12px;
         }
 
-        .online {
-            color: #00d084;
-            font-size: 11px;
-        }
-
         .dot {
             display: inline-block;
             width: 8px;
@@ -339,47 +436,15 @@
             margin-right: 8px;
         }
 
-        .add-form {
-            margin-top: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 13px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #999;
+        .online {
+            color: #00d084;
             font-size: 11px;
-            margin-bottom: 6px;
         }
 
-        input {
-            width: 100%;
-            padding: 11px;
-            background: #080808;
-            color: #fff;
-            border: 1px solid #292929;
-            border-radius: 8px;
-            outline: none;
-        }
-
-        input:focus {
-            border-color: #00a8ff;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: #00a8ff;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        /* ================= MOBILE ================= */
 
         @media(max-width:1000px) {
+
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -390,6 +455,7 @@
         }
 
         @media(max-width:700px) {
+
             .sidebar {
                 display: none;
             }
@@ -401,6 +467,10 @@
 
             .topbar {
                 display: block;
+            }
+
+            .topbar h2 {
+                font-size: 24px;
             }
 
             .admin {
@@ -423,6 +493,7 @@
         }
 
         @media(max-width:400px) {
+
             .stats {
                 grid-template-columns: 1fr;
             }
@@ -430,7 +501,9 @@
     </style>
 </head>
 
+
 <body>
+
 
 <!-- ===================================================== -->
 <!-- SIDEBAR -->
@@ -439,25 +512,31 @@
 <aside class="sidebar">
 
     <div class="logo">
-        <h1>Exam<span>Lock</span></h1>
-        <p>EXAMINATION SECURITY SYSTEM</p>
+
+        <h1>
+            Exam<span>Lock</span>
+        </h1>
+
+        <p>
+            EXAMINATION SECURITY SYSTEM
+        </p>
+
     </div>
+
 
     <ul class="menu">
 
-        <!-- EXISTING ROUTE -->
         <li>
-            <a href="{{ url_for('dashboard') }}" class="active">
+            <a href="#dashboard" class="active">
                 <span class="icon">▦</span>
                 Dashboard
             </a>
         </li>
 
-        <!-- NO url_for HERE -->
         <li>
             <a href="#add-paper">
                 <span class="icon">＋</span>
-                Add Secure Paper
+                Secure Paper
             </a>
         </li>
 
@@ -477,12 +556,19 @@
 
     </ul>
 
+
     <div class="logout">
-        <!-- EXISTING ROUTE -->
+
         <a href="{{ url_for('logout') }}">
-            <span class="icon">⇥</span>
+
+            <span class="icon">
+                ⇥
+            </span>
+
             Logout
+
         </a>
+
     </div>
 
 </aside>
@@ -492,14 +578,25 @@
 <!-- MAIN -->
 <!-- ===================================================== -->
 
-<main class="main">
+<main class="main" id="dashboard">
+
+
+    <!-- TOP BAR -->
 
     <div class="topbar">
 
         <div>
-            <h2>Dashboard</h2>
-            <p>Welcome to the ExamLock security control center.</p>
+
+            <h2>
+                Dashboard
+            </h2>
+
+            <p>
+                Welcome to the ExamLock security control center.
+            </p>
+
         </div>
+
 
         <div class="admin">
 
@@ -508,8 +605,15 @@
             </div>
 
             <div class="admin-info">
-                <strong>{{ username }}</strong>
-                <small>{{ role }}</small>
+
+                <strong>
+                    {{ username }}
+                </strong>
+
+                <small>
+                    {{ role }}
+                </small>
+
             </div>
 
         </div>
@@ -544,6 +648,9 @@
 
     <section class="stats">
 
+
+        <!-- SECURED PAPERS -->
+
         <div class="card stat-card">
 
             <div class="label">
@@ -564,6 +671,8 @@
 
         </div>
 
+
+        <!-- QR VERIFICATIONS -->
 
         <div class="card stat-card">
 
@@ -586,6 +695,8 @@
         </div>
 
 
+        <!-- ALERTS -->
+
         <div class="card stat-card">
 
             <div class="label">
@@ -606,6 +717,8 @@
 
         </div>
 
+
+        <!-- EVENTS -->
 
         <div class="card stat-card">
 
@@ -631,15 +744,15 @@
 
 
     <!-- ================================================= -->
-    <!-- CONTENT -->
+    <!-- CONTENT GRID -->
     <!-- ================================================= -->
 
     <section class="content-grid">
 
 
-        <!-- ============================================= -->
+        <!-- ================================================= -->
         <!-- PAPERS -->
-        <!-- ============================================= -->
+        <!-- ================================================= -->
 
         <div class="card" id="papers">
 
@@ -649,7 +762,7 @@
                     Secured Exam Papers
                 </h3>
 
-                <span style="color:#777;font-size:11px;">
+                <span>
                     {{ papers|length }} papers
                 </span>
 
@@ -663,11 +776,31 @@
                     <thead>
 
                         <tr>
-                            <th>PAPER ID</th>
-                            <th>UNIVERSITY</th>
-                            <th>EXAM</th>
-                            <th>SUBJECT</th>
-                            <th>STATUS</th>
+
+                            <th>
+                                PAPER ID
+                            </th>
+
+                            <th>
+                                UNIVERSITY
+                            </th>
+
+                            <th>
+                                EXAM
+                            </th>
+
+                            <th>
+                                SUBJECT
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                QR
+                            </th>
+
                         </tr>
 
                     </thead>
@@ -715,6 +848,19 @@
 
                             </td>
 
+                            <td>
+
+                                <!-- QR GENERATOR -->
+                                <a
+                                    href="{{ url_for('generate_qr', paper_id=paper['paper_id']) }}"
+                                    target="_blank"
+                                    class="qr-btn"
+                                >
+                                    GENERATE QR
+                                </a>
+
+                            </td>
+
                         </tr>
 
                         {% endfor %}
@@ -723,11 +869,15 @@
 
                         <tr>
 
-                            <td colspan="5"
-                                style="text-align:center;color:#666;padding:35px;">
-
+                            <td
+                                colspan="6"
+                                style="
+                                    text-align:center;
+                                    color:#666;
+                                    padding:40px;
+                                "
+                            >
                                 No exam papers found.
-
                             </td>
 
                         </tr>
@@ -743,23 +893,26 @@
         </div>
 
 
-        <!-- ============================================= -->
-        <!-- RIGHT SIDE -->
-        <!-- ============================================= -->
+        <!-- ================================================= -->
+        <!-- RIGHT COLUMN -->
+        <!-- ================================================= -->
 
         <div>
 
 
-            <!-- ========================================= -->
-            <!-- ADD PAPER -->
-            <!-- ========================================= -->
+            <!-- ================================================= -->
+            <!-- ADD SECURE PAPER -->
+            <!-- ================================================= -->
 
-            <div class="card" id="add-paper">
+            <div
+                class="card"
+                id="add-paper"
+            >
 
                 <div class="card-header">
 
                     <h3>
-                        Add Secure Paper
+                        Secure New Paper
                     </h3>
 
                 </div>
@@ -768,8 +921,8 @@
                 <form
                     method="POST"
                     action="{{ url_for('add_paper') }}"
-                    class="add-form"
                 >
+
 
                     <div class="form-group">
 
@@ -780,136 +933,5 @@
                         <input
                             type="text"
                             name="paper_id"
-                            placeholder="Example: EX-123456"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            UNIVERSITY
-                        </label>
-
-                        <input
-                            type="text"
-                            name="university"
-                            placeholder="University name"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            EXAM
-                        </label>
-
-                        <input
-                            type="text"
-                            name="exam"
-                            placeholder="Example: BCA Semester Exam"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            SUBJECT
-                        </label>
-
-                        <input
-                            type="text"
-                            name="subject"
-                            placeholder="Example: DBMS"
-                            required
-                        >
-
-                    </div>
-
-
-                    <button type="submit">
-                        🔐 SECURE PAPER
-                    </button>
-
-                </form>
-
-            </div>
-
-
-            <!-- ========================================= -->
-            <!-- QUICK ACTION -->
-            <!-- ========================================= -->
-
-            <div class="card system">
-
-                <div class="card-header">
-
-                    <h3>
-                        Quick Actions
-                    </h3>
-
-                </div>
-
-
-                <div class="action-box">
-
-                    <h4>
-                        📷 Verify QR Paper
-                    </h4>
-
-                    <p>
-                        Scan the QR code printed on an examination
-                        paper to verify its authenticity.
-                    </p>
-
-                </div>
-
-
-                <div class="action-box">
-
-                    <h4>
-                        🔐 Secure New Paper
-                    </h4>
-
-                    <p>
-                        Add university, examination and subject
-                        information to secure a new paper.
-                    </p>
-
-                    <a href="#add-paper">
-                        ADD PAPER
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- ========================================= -->
-            <!-- SYSTEM STATUS -->
-            <!-- ========================================= -->
-
-            <div class="card system">
-
-                <div class="card-header">
-
-                    <h3>
-                        System Status
-                    </h3>
-
-                </div>
-
-
-                <div class="system-item">
-
-                    <span class="system-name">
-                        <span class="dot"></span>
-                  
+                            placeholder="EX-123456"
+                         
