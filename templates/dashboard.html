@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>ExamLock Dashboard</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -105,7 +109,8 @@
 
         .form {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr auto;
+            grid-template-columns:
+                1fr 1fr 1fr 1fr auto;
             gap: 12px;
         }
 
@@ -152,11 +157,13 @@
             color: #475569;
             text-align: left;
             padding: 14px;
+            font-size: 13px;
         }
 
         td {
             padding: 14px;
             border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
         }
 
         .status {
@@ -177,6 +184,10 @@
             font-size: 12px;
         }
 
+        .qr:hover {
+            background: #1e293b;
+        }
+
         .empty {
             text-align: center;
             color: #94a3b8;
@@ -192,351 +203,9 @@
         }
 
         @media (max-width: 1000px) {
+
             .stats {
                 grid-template-columns: 1fr 1fr;
             }
 
             .form {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .topbar {
-                padding: 15px;
-            }
-
-            .container {
-                padding: 20px 12px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-
-            .card {
-                padding: 17px;
-            }
-
-            .number {
-                font-size: 25px;
-            }
-
-            .form {
-                grid-template-columns: 1fr;
-            }
-
-            button {
-                width: 100%;
-            }
-
-            .welcome h1 {
-                font-size: 23px;
-            }
-
-            .topbar {
-                flex-direction: column;
-                gap: 12px;
-                align-items: flex-start;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="topbar">
-
-    <div class="logo">
-        Exam<span>Lock</span>
-    </div>
-
-    <div>
-        {{ username }} · {{ role }}
-
-        <a href="/logout" class="logout">
-            Logout
-        </a>
-    </div>
-
-</div>
-
-
-<div class="container">
-
-    <div class="welcome">
-
-        <h1>
-            Examination Security Dashboard
-        </h1>
-
-        <p>
-            Manage and secure examination papers.
-        </p>
-
-    </div>
-
-
-    {% with messages = get_flashed_messages() %}
-
-        {% for message in messages %}
-
-            <div class="message">
-                {{ message }}
-            </div>
-
-        {% endfor %}
-
-    {% endwith %}
-
-
-    <!-- STATISTICS -->
-
-    <div class="stats">
-
-        <div class="card">
-
-            <div class="label">
-                SECURED PAPERS
-            </div>
-
-            <div class="number">
-                {{ secured_papers }}
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                QR VERIFICATIONS
-            </div>
-
-            <div class="number">
-                {{ verified_scans }}
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                ACTIVE ALERTS
-            </div>
-
-            <div class="number">
-                {{ active_alerts }}
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                TOTAL EVENTS
-            </div>
-
-            <div class="number">
-                {{ total_events }}
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- SECURE NEW PAPER -->
-
-    <div class="section">
-
-        <h2>
-            Secure New Examination Paper
-        </h2>
-
-        <form method="POST" action="/create-paper">
-
-            <div class="form">
-
-                <!-- PAPER ID -->
-
-                <input
-                    type="text"
-                    name="paper_id"
-                    placeholder="Paper ID"
-                    required
-                >
-
-
-                <!-- UNIVERSITY -->
-
-                <input
-                    type="text"
-                    name="university"
-                    placeholder="University"
-                    required
-                >
-
-
-                <!-- EXAM -->
-
-                <input
-                    type="text"
-                    name="exam"
-                    placeholder="Exam"
-                    required
-                >
-
-
-                <!-- SUBJECT -->
-
-                <input
-                    type="text"
-                    name="subject"
-                    placeholder="Subject"
-                    required
-                >
-
-
-                <button type="submit">
-                    + Secure Paper
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-
-    <!-- SECURED PAPERS -->
-
-    <div class="section">
-
-        <h2>
-            Secured Examination Papers
-        </h2>
-
-        <div class="table-box">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Paper ID
-                        </th>
-
-                        <th>
-                            University
-                        </th>
-
-                        <th>
-                            Exam
-                        </th>
-
-                        <th>
-                            Subject
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            QR
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    {% for paper in papers %}
-
-                    <tr>
-
-                        <td>
-                            <b>
-                                {{ paper["paper_id"] }}
-                            </b>
-                        </td>
-
-
-                        <td>
-                            {{ paper["university"] }}
-                        </td>
-
-
-                        <td>
-                            {{ paper["exam"] }}
-                        </td>
-
-
-                        <td>
-                            {{ paper["subject"] }}
-                        </td>
-
-
-                        <td>
-
-                            <span class="status">
-                                {{ paper["status"] }}
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            <a
-                                class="qr"
-                                href="/qr/{{ paper['paper_id'] }}"
-                                target="_blank"
-                            >
-                                View QR
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-
-                    {% else %}
-
-                    <tr>
-
-                        <td
-                            colspan="6"
-                            class="empty"
-                        >
-                            No examination papers available.
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-    <!-- VERIFICATION ACTIVITY -->
-
-    <div class="section">
-
-        <h2>
-            Recent Verification Activity
-        </h
