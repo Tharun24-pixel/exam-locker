@@ -29,7 +29,7 @@ DATABASE = os.path.join(BASE_DIR, "examlock.db")
 
 
 # ============================================================
-# DATABASE CONNECTION
+# DATABASE
 # ============================================================
 
 def get_db():
@@ -43,17 +43,14 @@ def now():
 
 
 # ============================================================
-# DATABASE INITIALIZATION + MIGRATION
+# DATABASE INITIALIZATION
 # ============================================================
 
 def init_db():
 
     conn = get_db()
 
-    # --------------------------------------------------------
-    # PAPERS TABLE
-    # --------------------------------------------------------
-
+    # PAPERS
     conn.execute("""
         CREATE TABLE IF NOT EXISTS papers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,10 +63,7 @@ def init_db():
         )
     """)
 
-    # --------------------------------------------------------
-    # CHECK OLD PAPERS TABLE COLUMNS
-    # --------------------------------------------------------
-
+    # PAPER MIGRATION
     paper_columns = [
         row["name"]
         for row in conn.execute(
@@ -77,26 +71,19 @@ def init_db():
         ).fetchall()
     ]
 
-    # Add University to OLD database
     if "university" not in paper_columns:
-
         conn.execute("""
             ALTER TABLE papers
             ADD COLUMN university TEXT DEFAULT ''
         """)
 
-    # Add created_at if old database doesn't have it
     if "created_at" not in paper_columns:
-
         conn.execute("""
             ALTER TABLE papers
             ADD COLUMN created_at TEXT
         """)
 
-    # --------------------------------------------------------
-    # LOGS TABLE
-    # --------------------------------------------------------
-
+    # LOGS
     conn.execute("""
         CREATE TABLE IF NOT EXISTS logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -107,10 +94,7 @@ def init_db():
         )
     """)
 
-    # --------------------------------------------------------
-    # FIX OLD LOGS DATABASE
-    # --------------------------------------------------------
-
+    # LOG MIGRATION
     log_columns = [
         row["name"]
         for row in conn.execute(
@@ -119,30 +103,24 @@ def init_db():
     ]
 
     if "created_at" not in log_columns:
-
         conn.execute("""
             ALTER TABLE logs
             ADD COLUMN created_at TEXT
         """)
 
     if "username" not in log_columns:
-
         conn.execute("""
             ALTER TABLE logs
             ADD COLUMN username TEXT
         """)
 
     if "action" not in log_columns:
-
         conn.execute("""
             ALTER TABLE logs
             ADD COLUMN action TEXT
         """)
 
-    # --------------------------------------------------------
-    # ALERTS TABLE
-    # --------------------------------------------------------
-
+    # ALERTS
     conn.execute("""
         CREATE TABLE IF NOT EXISTS alerts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -152,18 +130,12 @@ def init_db():
         )
     """)
 
-    # --------------------------------------------------------
     # DEMO PAPER
-    # --------------------------------------------------------
-
-    demo = conn.execute(
-        """
+    demo = conn.execute("""
         SELECT *
         FROM papers
-        WHERE paper_id=?
-        """,
-        ("EX-2FA0427E",)
-    ).fetchone()
+        WHERE paper_id = ?
+    """, ("EX-2FA0427E",)).fetchone()
 
     if demo is None:
 
@@ -186,10 +158,7 @@ def init_db():
             now()
         ))
 
-    # --------------------------------------------------------
-    # FIX EMPTY UNIVERSITY VALUES
-    # --------------------------------------------------------
-
+    # FIX EMPTY UNIVERSITY
     conn.execute("""
         UPDATE papers
         SET university = 'Not Provided'
@@ -197,18 +166,9 @@ def init_db():
         OR university = ''
     """)
 
-    # --------------------------------------------------------
-    # COMMIT
-    # --------------------------------------------------------
-
     conn.commit()
     conn.close()
 
-
-# ============================================================
-# INITIALIZE DATABASE
-# IMPORTANT FOR RENDER / GUNICORN
-# ============================================================
 
 init_db()
 
@@ -232,10 +192,6 @@ def login():
             ""
         ).strip()
 
-        # ----------------------------------------------------
-        # ADMIN LOGIN
-        # ----------------------------------------------------
-
         if (
             username == "admin"
             and password in ["admin123", "Nexora"]
@@ -253,9 +209,7 @@ def login():
             "error"
         )
 
-    return render_template(
-        "login.html"
-    )
+    return render_template("login.html")
 
 
 # ============================================================
@@ -273,7 +227,7 @@ def logout():
 
 
 # ============================================================
-# ADMIN DASHBOARD
+# DASHBOARD
 # ============================================================
 
 @app.route("/dashboard")
@@ -305,7 +259,7 @@ def dashboard():
     """).fetchall()
 
     # --------------------------------------------------------
-    # RECENT VERIFICATION LOGS
+    # RECENT LOGS
     # --------------------------------------------------------
 
     logs = conn.execute("""
@@ -360,33 +314,21 @@ def dashboard():
 
     conn.close()
 
-    # --------------------------------------------------------
-    # SEND DATA TO DASHBOARD
-    # --------------------------------------------------------
-
     return render_template(
         "dashboard.html",
-
         papers=papers,
-
         logs=logs,
-
         secured_papers=secured_papers,
-
         verified_scans=verified_scans,
-
         active_alerts=active_alerts,
-
         total_events=total_events,
-
         username=session["username"],
-
         role=session["role"]
     )
 
 
 # ============================================================
-# QR VERIFICATION
+# QR PAPER VERIFICATION
 # ============================================================
 
 @app.route("/verify/<paper_id>")
@@ -415,7 +357,6 @@ def verify_paper(paper_id):
 
     if paper is None:
 
-        # Create alert
         conn.execute("""
             INSERT INTO alerts (
                 message,
@@ -429,7 +370,6 @@ def verify_paper(paper_id):
             timestamp
         ))
 
-        # Create failed verification log
         conn.execute("""
             INSERT INTO logs (
                 paper_id,
@@ -455,7 +395,7 @@ def verify_paper(paper_id):
         ), 404
 
     # --------------------------------------------------------
-    # SUCCESSFUL VERIFICATION
+    # SUCCESS
     # --------------------------------------------------------
 
     conn.execute("""
@@ -476,10 +416,6 @@ def verify_paper(paper_id):
     conn.commit()
     conn.close()
 
-    # --------------------------------------------------------
-    # SHOW ONLY SCANNED PAPER
-    # --------------------------------------------------------
-
     return render_template(
         "verification.html",
         paper=paper,
@@ -488,7 +424,7 @@ def verify_paper(paper_id):
 
 
 # ============================================================
-# QR CODE GENERATOR
+# QR GENERATOR
 # ============================================================
 
 @app.route("/qr/<paper_id>")
@@ -505,22 +441,13 @@ def generate_qr(paper_id):
     conn.close()
 
     if paper is None:
-
         return "Paper not found", 404
-
-    # --------------------------------------------------------
-    # CURRENT WEBSITE URL
-    # --------------------------------------------------------
 
     base_url = request.host_url.rstrip("/")
 
     verify_url = (
         f"{base_url}/verify/{paper_id}"
     )
-
-    # --------------------------------------------------------
-    # CREATE QR
-    # --------------------------------------------------------
 
     qr = qrcode.QRCode(
         version=1,
@@ -539,10 +466,6 @@ def generate_qr(paper_id):
         back_color="white"
     )
 
-    # --------------------------------------------------------
-    # SAVE QR TO MEMORY
-    # --------------------------------------------------------
-
     buffer = io.BytesIO()
 
     image.save(
@@ -560,7 +483,7 @@ def generate_qr(paper_id):
 
 
 # ============================================================
-# ADD / SECURE NEW PAPER
+# ADD SECURE PAPER
 # ============================================================
 
 @app.route(
@@ -569,19 +492,11 @@ def generate_qr(paper_id):
 )
 def add_paper():
 
-    # --------------------------------------------------------
-    # LOGIN CHECK
-    # --------------------------------------------------------
-
     if "username" not in session:
 
         return redirect(
             url_for("login")
         )
-
-    # --------------------------------------------------------
-    # GET FORM DATA
-    # --------------------------------------------------------
 
     paper_id = request.form.get(
         "paper_id",
@@ -603,10 +518,6 @@ def add_paper():
         ""
     ).strip()
 
-    # --------------------------------------------------------
-    # VALIDATION
-    # --------------------------------------------------------
-
     if (
         not paper_id
         or not university
@@ -622,10 +533,6 @@ def add_paper():
         return redirect(
             url_for("dashboard")
         )
-
-    # --------------------------------------------------------
-    # DATABASE
-    # --------------------------------------------------------
 
     conn = get_db()
 
@@ -649,10 +556,6 @@ def add_paper():
             "SECURED",
             now()
         ))
-
-        # ----------------------------------------------------
-        # ADD EVENT LOG
-        # ----------------------------------------------------
 
         conn.execute("""
             INSERT INTO logs (
@@ -702,7 +605,7 @@ def add_paper():
 
 
 # ============================================================
-# OLD CREATE-PAPER SUPPORT
+# CREATE PAPER - OLD SUPPORT
 # ============================================================
 
 @app.route(
@@ -725,7 +628,7 @@ def health():
 
 
 # ============================================================
-# SERVER
+# RUN SERVER
 # ============================================================
 
 if __name__ == "__main__":
