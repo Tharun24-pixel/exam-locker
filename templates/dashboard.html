@@ -21,688 +21,895 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: #eef3f8;
-            color: #172033;
+            background: #f4f7fc;
+            color: #17233f;
             min-height: 100vh;
         }
 
-
-        /* =====================================================
+        /* ==================================================
            SIDEBAR
-        ===================================================== */
+        ================================================== */
 
         .sidebar {
+
             position: fixed;
             left: 0;
             top: 0;
-            width: 240px;
+
+            width: 220px;
             height: 100vh;
+
             background: #ffffff;
-            border-right: 1px solid #e4e9ef;
-            padding: 28px 18px;
+
+            border-right: 1px solid #e8edf5;
+
+            padding: 28px 15px;
+
             z-index: 1000;
         }
 
+
         .logo {
-            text-align: center;
+
+            text-align: left;
+
+            padding-left: 15px;
+
             margin-bottom: 42px;
         }
 
+
         .logo h1 {
-            font-size: 27px;
-            color: #172033;
+
+            font-size: 28px;
+
+            color: #17233f;
+
+            letter-spacing: -1px;
         }
+
 
         .logo h1 span {
-            color: #246bdb;
+
+            color: #1769e8;
         }
 
+
         .logo p {
-            color: #8a94a6;
+
+            color: #9aa7bc;
+
             font-size: 9px;
-            margin-top: 7px;
+
+            margin-top: 8px;
+
             letter-spacing: 1px;
         }
 
+
         .menu {
+
             list-style: none;
         }
 
+
         .menu li {
+
             margin-bottom: 8px;
         }
 
+
         .menu a {
+
             display: flex;
+
             align-items: center;
-            gap: 12px;
-            padding: 13px 14px;
-            color: #667085;
+
+            gap: 13px;
+
+            padding: 15px;
+
+            color: #64718a;
+
             text-decoration: none;
-            border-radius: 9px;
-            font-size: 14px;
+
+            border-radius: 11px;
+
+            font-size: 13px;
+
             transition: 0.2s;
         }
 
-        .menu a:hover,
-        .menu a.active {
-            background: #edf5ff;
-            color: #246bdb;
+
+        .menu a:hover {
+
+            background: #f1f6ff;
+
+            color: #1769e8;
         }
 
+
         .menu a.active {
-            border-left: 3px solid #246bdb;
+
+            background: #edf5ff;
+
+            color: #1769e8;
         }
+
 
         .icon {
+
             width: 22px;
+
             text-align: center;
-            font-size: 17px;
+
+            font-size: 18px;
+
+            color: inherit;
         }
+
 
         .logout {
+
             position: absolute;
+
             bottom: 25px;
-            left: 18px;
-            right: 18px;
+
+            left: 15px;
+
+            right: 15px;
         }
+
 
         .logout a {
-            color: #e5484d;
-        }
 
-
-        /* =====================================================
-           MAIN
-        ===================================================== */
-
-        .main {
-            margin-left: 240px;
-            padding: 32px;
-            max-width: 1500px;
-        }
-
-        .topbar {
             display: flex;
-            justify-content: space-between;
+
             align-items: center;
-            margin-bottom: 28px;
-        }
 
-        .topbar h2 {
-            font-size: 29px;
-            color: #172033;
-        }
+            gap: 12px;
 
-        .topbar p {
-            color: #7c8799;
-            font-size: 13px;
-            margin-top: 6px;
-        }
+            padding: 14px;
 
-        .admin {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            background: #ffffff;
-            border: 1px solid #e1e6ed;
-            padding: 8px 14px 8px 9px;
-            border-radius: 30px;
-            box-shadow: 0 4px 14px rgba(23, 32, 51, 0.04);
-        }
+            color: #ef4444;
 
-        .admin-circle {
-            width: 37px;
-            height: 37px;
-            background: #246bdb;
-            color: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
+            text-decoration: none;
 
-        .admin-info strong {
-            display: block;
-            font-size: 13px;
-            color: #172033;
-        }
+            border: 1px solid #edf0f5;
 
-        .admin-info small {
-            color: #8a94a6;
-            font-size: 11px;
-        }
-
-
-        /* =====================================================
-           FLASH
-        ===================================================== */
-
-        .flash {
-            padding: 13px 16px;
             border-radius: 10px;
-            margin-bottom: 18px;
-            background: #ffffff;
-            border: 1px solid #dfe5ec;
+
             font-size: 13px;
+
+            transition: 0.2s;
         }
 
-        .flash.success {
-            color: #16834a;
-            border-color: #b9e7cd;
-            background: #f0fff6;
-        }
 
-        .flash.error {
-            color: #d9363e;
-            border-color: #f1c2c5;
+        .logout a:hover {
+
             background: #fff5f5;
         }
 
 
-        /* =====================================================
+        /* ==================================================
+           MAIN
+        ================================================== */
+
+        .main {
+
+            margin-left: 220px;
+
+            padding: 32px 25px;
+
+            max-width: 1500px;
+        }
+
+
+        .topbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 28px;
+        }
+
+
+        .topbar h2 {
+
+            font-size: 28px;
+
+            color: #17233f;
+
+            margin-bottom: 6px;
+        }
+
+
+        .topbar p {
+
+            color: #7e8ba3;
+
+            font-size: 13px;
+        }
+
+
+        /* ==================================================
+           ADMIN
+        ================================================== */
+
+        .admin {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            background: #ffffff;
+
+            border: 1px solid #e8edf5;
+
+            padding: 9px 17px 9px 10px;
+
+            border-radius: 35px;
+
+            box-shadow: 0 4px 15px rgba(30, 55, 90, 0.05);
+        }
+
+
+        .admin-circle {
+
+            width: 40px;
+            height: 40px;
+
+            background: #2169df;
+
+            color: #ffffff;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+
+            font-size: 17px;
+        }
+
+
+        .admin-info strong {
+
+            display: block;
+
+            font-size: 13px;
+
+            color: #17233f;
+        }
+
+
+        .admin-info small {
+
+            color: #8290a8;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+            display: block;
+        }
+
+
+        /* ==================================================
+           FLASH
+        ================================================== */
+
+        .flash {
+
+            padding: 13px 16px;
+
+            border-radius: 10px;
+
+            margin-bottom: 18px;
+
+            background: #ffffff;
+
+            border: 1px solid #e4e9f1;
+
+            font-size: 13px;
+        }
+
+
+        .flash.success {
+
+            color: #159866;
+
+            border-color: #bfe8d5;
+
+            background: #f3fcf7;
+        }
+
+
+        .flash.error {
+
+            color: #e04444;
+
+            border-color: #f0c8c8;
+
+            background: #fff7f7;
+        }
+
+
+        /* ==================================================
            STATISTICS
-        ===================================================== */
+        ================================================== */
 
         .stats {
+
             display: grid;
+
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 22px;
+
+            gap: 15px;
+
+            margin-bottom: 24px;
         }
+
 
         .card {
+
             background: #ffffff;
-            border: 1px solid #e2e7ed;
+
+            border: 1px solid #e7ebf2;
+
             border-radius: 16px;
-            padding: 21px;
-            box-shadow: 0 7px 22px rgba(35, 55, 80, 0.05);
+
+            padding: 24px;
+
+            box-shadow: 0 5px 18px rgba(37, 61, 95, 0.045);
         }
+
 
         .stat-card {
+
             position: relative;
+
             overflow: hidden;
-            min-height: 130px;
+
+            min-height: 150px;
         }
+
 
         .label {
-            color: #7c8799;
+
+            color: #71809a;
+
             font-size: 11px;
-            margin-bottom: 10px;
+
+            margin-bottom: 15px;
+
             font-weight: 600;
+
+            letter-spacing: 0.2px;
         }
+
 
         .stat-card h3 {
-            color: #172033;
+
+            color: #17233f;
+
             font-size: 30px;
+
+            font-weight: 700;
         }
+
 
         .small {
-            color: #18a65b;
+
+            color: #19a06b;
+
             font-size: 11px;
-            margin-top: 7px;
-        }
 
-        .stat-icon {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 25px;
-            opacity: 0.55;
-        }
+            margin-top: 12px;
 
-
-        /* =====================================================
-           CONTENT
-        ===================================================== */
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.45fr 0.85fr;
-            gap: 20px;
-            align-items: start;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .card-header h3 {
-            font-size: 17px;
-            color: #172033;
-        }
-
-        .card-header span {
-            color: #8a94a6;
-            font-size: 11px;
-        }
-
-
-        /* =====================================================
-           TABLE
-        ===================================================== */
-
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
-
-        th {
-            color: #687386;
-            background: #f7f9fb;
-            font-size: 10px;
-            text-align: left;
-            padding: 13px 10px;
-            border-bottom: 1px solid #e4e8ee;
-        }
-
-        td {
-            color: #172033;
-            padding: 15px 10px;
-            border-bottom: 1px solid #edf0f3;
-            font-size: 12px;
-            vertical-align: middle;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .paper-id {
-            color: #172033;
-            font-weight: bold;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 6px 10px;
-            border-radius: 20px;
-            background: #dcf8e8;
-            color: #26734d;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .failed {
-            background: #ffe4e4;
-            color: #d9363e;
-        }
-
-
-        /* =====================================================
-           QR BUTTON
-        ===================================================== */
-
-        .qr-btn {
-            display: inline-block;
-            padding: 8px 12px;
-            background: #172033;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 7px;
-            font-size: 10px;
-            font-weight: bold;
-            transition: 0.2s;
-            white-space: nowrap;
-        }
-
-        .qr-btn:hover {
-            background: #246bdb;
-        }
-
-
-        /* =====================================================
-           FORM
-        ===================================================== */
-
-        .form-card {
-            scroll-margin-top: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            background: #ffffff;
-            color: #172033;
-            border: 1px solid #cfd6df;
-            border-radius: 11px;
-            outline: none;
-            font-size: 14px;
-        }
-
-        input:focus {
-            border-color: #246bdb;
-            box-shadow: 0 0 0 3px rgba(36, 107, 219, 0.08);
-        }
-
-        input::placeholder {
-            color: #8b94a3;
-        }
-
-        .secure-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: #2463df;
-            color: #ffffff;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 15px;
-            transition: 0.2s;
-        }
-
-        .secure-btn:hover {
-            background: #1d55c4;
-        }
-
-
-        /* =====================================================
-           RECENT VERIFICATION ACTIVITY
-        ===================================================== */
-
-        .activity-card {
-            margin-top: 20px;
-            scroll-margin-top: 20px;
-        }
-
-        .activity-table table {
-            min-width: 600px;
-        }
-
-        .activity-paper {
-            font-weight: bold;
-            color: #172033;
-        }
-
-        .action {
-            color: #343e50;
-        }
-
-        .verified-by {
-            color: #343e50;
-        }
-
-        .time {
-            color: #4f5a6d;
-            white-space: nowrap;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: #8a94a6;
-            padding: 35px !important;
-        }
-
-
-        /* =====================================================
-           QUICK ACTIONS
-        ===================================================== */
-
-        .quick-actions {
-            margin-top: 20px;
-        }
-
-        .action-box {
-            background: #f7f9fb;
-            border: 1px solid #e4e9ef;
-            border-radius: 11px;
-            padding: 16px;
-            margin-bottom: 11px;
-        }
-
-        .action-box h4 {
-            color: #172033;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .action-box p {
-            color: #7c8799;
-            font-size: 11px;
             line-height: 1.5;
         }
 
-        .action-link {
-            display: inline-block;
-            margin-top: 11px;
-            padding: 8px 12px;
-            background: #172033;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 7px;
-            font-size: 10px;
-            font-weight: bold;
+
+        .stat-icon {
+
+            position: absolute;
+
+            right: 20px;
+
+            top: 53px;
+
+            font-size: 30px;
+
+            opacity: 0.9;
         }
 
-        .action-link:hover {
-            background: #246bdb;
+
+        /* ==================================================
+           CONTENT
+        ================================================== */
+
+        .content-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr;
+
+            gap: 20px;
         }
 
 
-        /* =====================================================
-           SYSTEM STATUS
-        ===================================================== */
+        .card-header {
 
-        .system {
-            margin-top: 20px;
-        }
-
-        .system-item {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
-            padding: 13px 0;
-            border-bottom: 1px solid #edf0f3;
+
+            margin-bottom: 22px;
         }
 
-        .system-item:last-child {
-            border-bottom: none;
+
+        .card-header h3 {
+
+            font-size: 18px;
+
+            color: #17233f;
         }
 
-        .system-name {
-            color: #5d687b;
-            font-size: 12px;
-        }
 
-        .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #18a65b;
-            border-radius: 50%;
-            margin-right: 7px;
-        }
+        .card-header span {
 
-        .online {
-            color: #16834a;
+            color: #7d8ba4;
+
             font-size: 11px;
+        }
+
+
+        /* ==================================================
+           TABLE
+        ================================================== */
+
+        .table-container {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 760px;
+        }
+
+
+        thead {
+
+            background: #f8faff;
+        }
+
+
+        th {
+
+            color: #62708a;
+
+            font-size: 10px;
+
+            text-align: left;
+
+            padding: 14px 13px;
+
+            border-top: 1px solid #e8edf4;
+
+            border-bottom: 1px solid #e8edf4;
+
             font-weight: 600;
         }
 
 
-        /* =====================================================
-           TABLET
-        ===================================================== */
+        th:first-child {
 
-        @media (max-width: 1050px) {
+            border-left: 1px solid #e8edf4;
+
+            border-radius: 8px 0 0 8px;
+        }
+
+
+        th:last-child {
+
+            border-right: 1px solid #e8edf4;
+
+            border-radius: 0 8px 8px 0;
+        }
+
+
+        td {
+
+            color: #35425c;
+
+            padding: 17px 13px;
+
+            border-bottom: 1px solid #edf0f5;
+
+            font-size: 12px;
+        }
+
+
+        tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        .paper-id {
+
+            color: #17233f;
+
+            font-weight: bold;
+        }
+
+
+        .university-name {
+
+            color: #35425c;
+
+            font-weight: 500;
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            background: #e6f8ef;
+
+            color: #159866;
+
+            font-size: 10px;
+
+            font-weight: bold;
+        }
+
+
+        .failed {
+
+            background: #fff0f0;
+
+            color: #e04444;
+        }
+
+
+        /* ==================================================
+           QR BUTTON
+        ================================================== */
+
+        .qr-btn {
+
+            display: inline-block;
+
+            padding: 9px 14px;
+
+            background: #17233f;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+
+        .qr-btn:hover {
+
+            background: #1769e8;
+        }
+
+
+        /* ==================================================
+           SECURE PAPER FORM
+        ================================================== */
+
+        .form-card {
+
+            margin-top: 20px;
+        }
+
+
+        .form-group {
+
+            margin-bottom: 16px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: #65728b;
+
+            font-size: 11px;
+
+            margin-bottom: 7px;
+
+            font-weight: 600;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            background: #ffffff;
+
+            color: #263550;
+
+            border: 1px solid #dfe5ee;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            transition: 0.2s;
+        }
+
+
+        input:focus {
+
+            border-color: #1769e8;
+
+            box-shadow: 0 0 0 3px rgba(23, 105, 232, 0.08);
+        }
+
+
+        input::placeholder {
+
+            color: #98a5b9;
+        }
+
+
+        .secure-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #1764df;
+
+            color: #ffffff;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            margin-top: 3px;
+
+            font-size: 13px;
+        }
+
+
+        .secure-btn:hover {
+
+            background: #0e55c5;
+        }
+
+
+        /* ==================================================
+           RECENT VERIFICATION
+        ================================================== */
+
+        .recent-card {
+
+            margin-top: 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .college-name {
+
+            color: #35425c;
+
+            font-weight: 500;
+        }
+
+
+        .verification-success {
+
+            display: inline-block;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            background: #e6f8ef;
+
+            color: #159866;
+
+            font-size: 10px;
+
+            font-weight: bold;
+        }
+
+
+        .verification-failed {
+
+            display: inline-block;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            background: #fff0f0;
+
+            color: #e04444;
+
+            font-size: 10px;
+
+            font-weight: bold;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            color: #8b97aa;
+
+            padding: 40px;
+
+            font-size: 12px;
+        }
+
+
+        /* ==================================================
+           UNIVERSITY BADGE
+        ================================================== */
+
+        .university-badge {
+
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 6px;
+
+            background: #edf5ff;
+
+            color: #1769e8;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* ==================================================
+           MOBILE
+        ================================================== */
+
+        @media(max-width:1100px) {
 
             .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
 
-            .content-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
 
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 700px) {
-
-            body {
-                background: #eef3f8;
-            }
+        @media(max-width:750px) {
 
             .sidebar {
+
                 display: none;
             }
 
+
             .main {
+
                 margin-left: 0;
-                padding: 18px 14px 35px;
-                max-width: none;
+
+                padding: 18px 14px;
             }
+
 
             .topbar {
+
                 display: block;
-                margin-bottom: 20px;
             }
+
 
             .topbar h2 {
-                font-size: 25px;
+
+                font-size: 24px;
             }
 
-            .topbar p {
-                font-size: 12px;
-                margin-top: 5px;
-            }
 
             .admin {
+
                 width: fit-content;
+
                 margin-top: 15px;
             }
 
+
             .stats {
+
                 grid-template-columns: 1fr 1fr;
+
                 gap: 10px;
-                margin-bottom: 18px;
             }
+
 
             .card {
-                padding: 16px;
-                border-radius: 16px;
+
+                padding: 17px;
             }
 
-            .stat-card {
-                min-height: 120px;
-            }
 
             .stat-card h3 {
+
                 font-size: 25px;
-            }
-
-            .stat-icon {
-                right: 15px;
-                top: 15px;
-                font-size: 22px;
-            }
-
-            .content-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 18px;
-            }
-
-            .content-grid > .card,
-            .content-grid > div {
-                width: 100%;
-            }
-
-            .card-header {
-                margin-bottom: 16px;
-            }
-
-            .card-header h3 {
-                font-size: 17px;
-            }
-
-            table {
-                min-width: 590px;
-            }
-
-            th {
-                padding: 12px 9px;
-            }
-
-            td {
-                padding: 14px 9px;
-            }
-
-            input {
-                padding: 14px;
-                font-size: 14px;
-            }
-
-            .secure-btn {
-                padding: 14px;
-                font-size: 15px;
-            }
-
-            .activity-card {
-                margin-top: 18px;
-            }
-
-            .quick-actions,
-            .system {
-                margin-top: 18px;
             }
         }
 
 
-        /* =====================================================
-           SMALL MOBILE
-        ===================================================== */
-
-        @media (max-width: 420px) {
-
-            .main {
-                padding-left: 12px;
-                padding-right: 12px;
-            }
+        @media(max-width:430px) {
 
             .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 9px;
+
+                grid-template-columns: 1fr;
             }
 
-            .card {
-                padding: 15px;
-            }
-
-            .stat-card h3 {
-                font-size: 24px;
-            }
-
-            .label {
-                font-size: 10px;
-            }
-
-            .small {
-                font-size: 10px;
-            }
 
             .topbar h2 {
-                font-size: 24px;
+
+                font-size: 22px;
+            }
+
+
+            .admin {
+
+                margin-top: 13px;
             }
         }
 
@@ -714,11 +921,12 @@
 <body>
 
 
-<!-- =========================================================
+<!-- ======================================================
      SIDEBAR
-========================================================= -->
+====================================================== -->
 
 <aside class="sidebar">
+
 
     <div class="logo">
 
@@ -734,6 +942,7 @@
 
 
     <ul class="menu">
+
 
         <li>
 
@@ -758,7 +967,7 @@
             <a href="#add-paper">
 
                 <span class="icon">
-                    ＋
+                    ⊕
                 </span>
 
                 Secure Paper
@@ -797,6 +1006,7 @@
 
         </li>
 
+
     </ul>
 
 
@@ -814,13 +1024,13 @@
 
     </div>
 
+
 </aside>
 
 
-
-<!-- =========================================================
+<!-- ======================================================
      MAIN
-========================================================= -->
+====================================================== -->
 
 <main
     class="main"
@@ -828,11 +1038,12 @@
 >
 
 
-    <!-- =====================================================
+    <!-- ==================================================
          TOP BAR
-    ===================================================== -->
+    ================================================== -->
 
     <div class="topbar">
+
 
         <div>
 
@@ -848,6 +1059,7 @@
 
 
         <div class="admin">
+
 
             <div class="admin-circle">
 
@@ -868,15 +1080,16 @@
 
             </div>
 
+
         </div>
+
 
     </div>
 
 
-
-    <!-- =====================================================
+    <!-- ==================================================
          FLASH MESSAGES
-    ===================================================== -->
+    ================================================== -->
 
     {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -885,7 +1098,9 @@
             {% for category, message in messages %}
 
                 <div class="flash {{ category }}">
+
                     {{ message }}
+
                 </div>
 
             {% endfor %}
@@ -895,13 +1110,14 @@
     {% endwith %}
 
 
-
-    <!-- =====================================================
+    <!-- ==================================================
          STATISTICS
-    ===================================================== -->
+    ================================================== -->
 
     <section class="stats">
 
+
+        <!-- SECURED PAPERS -->
 
         <div class="card stat-card">
 
@@ -924,6 +1140,7 @@
         </div>
 
 
+        <!-- QR VERIFICATIONS -->
 
         <div class="card stat-card">
 
@@ -946,6 +1163,7 @@
         </div>
 
 
+        <!-- ACTIVE ALERTS -->
 
         <div class="card stat-card">
 
@@ -959,7 +1177,7 @@
 
             <div
                 class="small"
-                style="color:#d9363e;"
+                style="color:#ef4444;"
             >
                 Security alerts
             </div>
@@ -971,6 +1189,7 @@
         </div>
 
 
+        <!-- TOTAL EVENTS -->
 
         <div class="card stat-card">
 
@@ -992,390 +1211,328 @@
 
         </div>
 
-    </section>
-
-
-
-    <!-- =====================================================
-         CONTENT
-    ===================================================== -->
-
-    <section class="content-grid">
-
-
-        <!-- =================================================
-             SECURED EXAM PAPERS
-        ================================================= -->
-
-        <div
-            class="card"
-            id="papers"
-        >
-
-            <div class="card-header">
-
-                <h3>
-                    Secured Examination Papers
-                </h3>
-
-                <span>
-                    {{ papers|length }} papers
-                </span>
-
-            </div>
-
-
-            <div class="table-container">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                PAPER ID
-                            </th>
-
-                            <th>
-                                EXAM
-                            </th>
-
-                            <th>
-                                SUBJECT
-                            </th>
-
-                            <th>
-                                STATUS
-                            </th>
-
-                            <th>
-                                QR
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                    {% if papers %}
-
-                        {% for paper in papers %}
-
-                        <tr>
-
-                            <td class="paper-id">
-                                {{ paper["paper_id"] }}
-                            </td>
-
-
-                            <td>
-                                {{ paper["exam"] }}
-                            </td>
-
-
-                            <td>
-                                {{ paper["subject"] }}
-                            </td>
-
-
-                            <td>
-
-                                {% if paper["status"] == "SECURED" %}
-
-                                    <span class="status">
-                                        SECURED
-                                    </span>
-
-                                {% else %}
-
-                                    <span class="status failed">
-                                        {{ paper["status"] }}
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <td>
-
-                                <a
-                                    href="{{ url_for('generate_qr', paper_id=paper['paper_id']) }}"
-                                    target="_blank"
-                                    class="qr-btn"
-                                >
-                                    VIEW QR
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-
-                    {% else %}
-
-                        <tr>
-
-                            <td
-                                colspan="5"
-                                class="empty-state"
-                            >
-                                No secured examination papers found.
-                            </td>
-
-                        </tr>
-
-                    {% endif %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
-             RIGHT COLUMN
-        ================================================= -->
-
-        <div>
-
-
-            <!-- =============================================
-                 SECURE NEW EXAMINATION PAPER
-            ============================================== -->
-
-            <div
-                class="card form-card"
-                id="add-paper"
-            >
-
-                <div class="card-header">
-
-                    <h3>
-                        Secure New Examination Paper
-                    </h3>
-
-                </div>
-
-
-                <form
-                    method="POST"
-                    action="{{ url_for('add_paper') }}"
-                >
-
-
-                    <div class="form-group">
-
-                        <input
-                            type="text"
-                            name="paper_id"
-                            placeholder="Paper ID"
-                            required
-                            autocomplete="off"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <input
-                            type="text"
-                            name="exam"
-                            placeholder="Exam"
-                            required
-                            autocomplete="off"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <input
-                            type="text"
-                            name="subject"
-                            placeholder="Subject"
-                            required
-                            autocomplete="off"
-                        >
-
-                    </div>
-
-
-                    <!-- University kept hidden so the
-                         existing database remains compatible -->
-
-                    <input
-                        type="hidden"
-                        name="university"
-                        value="Not Provided"
-                    >
-
-
-                    <button
-                        type="submit"
-                        class="secure-btn"
-                    >
-                        + Secure Paper
-                    </button>
-
-                </form>
-
-            </div>
-
-
-
-            <!-- =============================================
-                 QUICK ACTIONS
-            ============================================== -->
-
-            <div class="card quick-actions">
-
-                <div class="card-header">
-
-                    <h3>
-                        Quick Actions
-                    </h3>
-
-                </div>
-
-
-                <div class="action-box">
-
-                    <h4>
-                        Secure Examination Paper
-                    </h4>
-
-                    <p>
-                        Add and secure a new examination paper
-                        with a unique Paper ID.
-                    </p>
-
-                    <a
-                        href="#add-paper"
-                        class="action-link"
-                    >
-                        SECURE PAPER
-                    </a>
-
-                </div>
-
-
-                <div class="action-box">
-
-                    <h4>
-                        Verification Logs
-                    </h4>
-
-                    <p>
-                        Review recent QR verification and
-                        system activity.
-                    </p>
-
-                    <a
-                        href="#logs"
-                        class="action-link"
-                    >
-                        VIEW LOGS
-                    </a>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =============================================
-                 SYSTEM STATUS
-            ============================================== -->
-
-            <div class="card system">
-
-                <div class="card-header">
-
-                    <h3>
-                        System Status
-                    </h3>
-
-                </div>
-
-
-                <div class="system-item">
-
-                    <span class="system-name">
-                        Flask Server
-                    </span>
-
-                    <span class="online">
-
-                        <span class="dot"></span>
-
-                        Online
-
-                    </span>
-
-                </div>
-
-
-                <div class="system-item">
-
-                    <span class="system-name">
-                        SQLite Database
-                    </span>
-
-                    <span class="online">
-
-                        <span class="dot"></span>
-
-                        Connected
-
-                    </span>
-
-                </div>
-
-
-                <div class="system-item">
-
-                    <span class="system-name">
-                        QR Verification
-                    </span>
-
-                    <span class="online">
-
-                        <span class="dot"></span>
-
-                        Active
-
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
 
     </section>
 
 
-
-    <!-- =====================================================
-         RECENT VERIFICATION ACTIVITY
-    ===================================================== -->
+    <!-- ==================================================
+         SECURED EXAM PAPERS
+    ================================================== -->
 
     <section
-        class="card activity-card"
+        class="card"
+        id="papers"
+    >
+
+
+        <div class="card-header">
+
+            <h3>
+                Secured Examination Papers
+            </h3>
+
+            <span>
+                {{ papers|length }} papers
+            </span>
+
+        </div>
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            PAPER ID
+                        </th>
+
+                        <th>
+                            UNIVERSITY
+                        </th>
+
+                        <th>
+                            EXAM
+                        </th>
+
+                        <th>
+                            SUBJECT
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            QR
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% if papers %}
+
+
+                    {% for paper in papers %}
+
+
+                    <tr>
+
+
+                        <td class="paper-id">
+
+                            {{ paper["paper_id"] }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="university-badge">
+
+                                {{ paper["university"] }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ paper["exam"] }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ paper["subject"] }}
+
+                        </td>
+
+
+                        <td>
+
+
+                            {% if paper["status"] == "SECURED" %}
+
+
+                                <span class="status">
+
+                                    SECURED
+
+                                </span>
+
+
+                            {% else %}
+
+
+                                <span class="status failed">
+
+                                    {{ paper["status"] }}
+
+                                </span>
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <td>
+
+
+                            <a
+                                href="{{ url_for('generate_qr', paper_id=paper['paper_id']) }}"
+                                target="_blank"
+                                class="qr-btn"
+                            >
+
+                                VIEW QR
+
+                            </a>
+
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                {% else %}
+
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty"
+                        >
+
+                            No examination papers found.
+
+                        </td>
+
+                    </tr>
+
+
+                {% endif %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==================================================
+         SECURE NEW EXAMINATION PAPER
+    ================================================== -->
+
+    <section
+        class="card form-card"
+        id="add-paper"
+    >
+
+
+        <div class="card-header">
+
+            <h3>
+                Secure New Examination Paper
+            </h3>
+
+        </div>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('add_paper') }}"
+        >
+
+
+            <!-- PAPER ID -->
+
+            <div class="form-group">
+
+                <label>
+                    PAPER ID
+                </label>
+
+                <input
+                    type="text"
+                    name="paper_id"
+                    placeholder="Paper ID"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <!-- UNIVERSITY -->
+
+            <div class="form-group">
+
+                <label>
+                    UNIVERSITY
+                </label>
+
+                <input
+                    type="text"
+                    name="university"
+                    placeholder="University"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EXAM -->
+
+            <div class="form-group">
+
+                <label>
+                    EXAM
+                </label>
+
+                <input
+                    type="text"
+                    name="exam"
+                    placeholder="Exam"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <!-- SUBJECT -->
+
+            <div class="form-group">
+
+                <label>
+                    SUBJECT
+                </label>
+
+                <input
+                    type="text"
+                    name="subject"
+                    placeholder="Subject"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <!-- SECURE BUTTON -->
+
+            <button
+                type="submit"
+                class="secure-btn"
+            >
+
+                ＋ &nbsp; Secure Paper
+
+            </button>
+
+
+        </form>
+
+
+    </section>
+
+
+    <!-- ==================================================
+         RECENT VERIFICATION ACTIVITY
+    ================================================== -->
+
+    <section
+        class="card recent-card"
         id="logs"
     >
+
 
         <div class="card-header">
 
@@ -1384,15 +1541,17 @@
             </h3>
 
             <span>
-                Last {{ logs|length }} events
+                Last 20 events
             </span>
 
         </div>
 
 
-        <div class="table-container activity-table">
+        <div class="table-container">
+
 
             <table>
+
 
                 <thead>
 
@@ -1411,6 +1570,10 @@
                         </th>
 
                         <th>
+                            COLLEGE / INSTITUTION
+                        </th>
+
+                        <th>
                             TIME
                         </th>
 
@@ -1421,78 +1584,143 @@
 
                 <tbody>
 
+
                 {% if logs %}
+
 
                     {% for log in logs %}
 
+
                     <tr>
 
-                        <td class="activity-paper">
-                            {{ log["paper_id"] }}
+
+                        <td class="paper-id">
+
+                            {{ log["paper_id"] or "-" }}
+
                         </td>
 
 
-                        <td class="action">
+                        <td>
+
 
                             {% if log["action"] == "QR Verification" %}
 
-                                <span class="status">
+
+                                <span class="verification-success">
+
                                     QR Verification
+
                                 </span>
+
 
                             {% elif log["action"] == "Failed Verification" %}
 
-                                <span class="status failed">
+
+                                <span class="verification-failed">
+
                                     Failed Verification
+
                                 </span>
+
+
+                            {% elif log["action"] == "Paper Secured" %}
+
+
+                                <span class="verification-success">
+
+                                    Paper Secured
+
+                                </span>
+
 
                             {% else %}
 
-                                {{ log["action"] }}
+
+                                {{ log["action"] or "-" }}
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <td class="college-name">
+
+                            {% if log["verified_by"] %}
+
+                                {{ log["verified_by"] }}
+
+                            {% elif log["username"] %}
+
+                                {{ log["username"] }}
+
+                            {% else %}
+
+                                -
 
                             {% endif %}
 
                         </td>
 
 
-                        <td class="verified-by">
+                        <td class="college-name">
 
-                            {{ log["username"] or "System" }}
+                            {% if log["verified_by"] %}
+
+                                {{ log["verified_by"] }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
 
                         </td>
 
 
-                        <td class="time">
+                        <td>
 
-                            {{ log["created_at"] }}
+                            {{ log["created_at"] or "-" }}
 
                         </td>
+
 
                     </tr>
+
 
                     {% endfor %}
 
 
                 {% else %}
 
+
                     <tr>
 
                         <td
-                            colspan="4"
-                            class="empty-state"
+                            colspan="5"
+                            class="empty"
                         >
-                            No verification activity recorded yet.
+
+                            No verification events found.
+
                         </td>
 
                     </tr>
 
+
                 {% endif %}
+
 
                 </tbody>
 
+
             </table>
 
+
         </div>
+
 
     </section>
 
@@ -1500,46 +1728,6 @@
 </main>
 
 
-
-<!-- =========================================================
-     SMOOTH SCROLL
-========================================================= -->
-
-<script>
-
-    document
-        .querySelectorAll('a[href^="#"]')
-        .forEach(function(link) {
-
-            link.addEventListener(
-                "click",
-                function(event) {
-
-                    const targetId =
-                        this.getAttribute("href");
-
-                    const target =
-                        document.querySelector(targetId);
-
-                    if (target) {
-
-                        event.preventDefault();
-
-                        target.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-
-                    }
-
-                }
-            );
-
-        });
-
-</script>
-
-
 </body>
 
-</html>
+</html
