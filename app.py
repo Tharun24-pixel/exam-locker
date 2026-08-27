@@ -52,12 +52,30 @@ def init_db():
         CREATE TABLE IF NOT EXISTS papers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             paper_id TEXT UNIQUE NOT NULL,
+            university TEXT,
             exam TEXT NOT NULL,
             subject TEXT NOT NULL,
             status TEXT DEFAULT 'SECURED',
             created_at TEXT
         )
     """)
+
+    # --------------------------------------------------------
+    # FIX OLD DATABASE
+    # --------------------------------------------------------
+
+    paper_columns = [
+        row["name"]
+        for row in conn.execute(
+            "PRAGMA table_info(papers)"
+        ).fetchall()
+    ]
+
+    # University column old database alli illa andre add agutte
+    if "university" not in paper_columns:
+        conn.execute(
+            "ALTER TABLE papers ADD COLUMN university TEXT"
+        )
 
     # --------------------------------------------------------
     # LOGS
@@ -87,7 +105,7 @@ def init_db():
     """)
 
     # --------------------------------------------------------
-    # FIX OLD DATABASE
+    # FIX OLD LOG DATABASE
     # --------------------------------------------------------
 
     log_columns = [
@@ -116,14 +134,16 @@ def init_db():
         conn.execute("""
             INSERT INTO papers (
                 paper_id,
+                university,
                 exam,
                 subject,
                 status,
                 created_at
             )
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
         """, (
             "EX-2FA0427E",
+            "Bangalore University",
             "SSLC",
             "DBMS",
             "SECURED",
@@ -330,11 +350,6 @@ def verify_paper(paper_id):
     conn.commit()
     conn.close()
 
-    # IMPORTANT:
-    # QR scanner sees ONLY the scanned paper.
-    # It does NOT see the admin dashboard.
-    # It does NOT see other papers.
-
     return render_template(
         "verification.html",
         paper=paper,
@@ -348,9 +363,6 @@ def verify_paper(paper_id):
 
 @app.route("/qr/<paper_id>")
 def generate_qr(paper_id):
-
-    # The URL used to access this page becomes
-    # the base URL of the QR.
 
     base_url = request.host_url.rstrip("/")
 
@@ -409,6 +421,11 @@ def add_paper():
         ""
     ).strip()
 
+    university = request.form.get(
+        "university",
+        ""
+    ).strip()
+
     exam = request.form.get(
         "exam",
         ""
@@ -421,6 +438,7 @@ def add_paper():
 
     if (
         not paper_id
+        or not university
         or not exam
         or not subject
     ):
@@ -441,14 +459,16 @@ def add_paper():
         conn.execute("""
             INSERT INTO papers (
                 paper_id,
+                university,
                 exam,
                 subject,
                 status,
                 created_at
             )
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
         """, (
             paper_id,
+            university,
             exam,
             subject,
             "SECURED",
@@ -503,7 +523,7 @@ if __name__ == "__main__":
     print("======================================")
     print("Examination Security System")
     print("Local Server: http://127.0.0.1:5000")
-    print("Admin Login: admin / admin123")
+    print("Admin Login: admin / Nexora")
     print("======================================")
     print("")
 
