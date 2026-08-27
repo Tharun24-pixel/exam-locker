@@ -1,211 +1,789 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>ExamLock Dashboard</title>
 
     <style>
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            color: #0f172a;
+            background: #050505;
+            color: #ffffff;
+            min-height: 100vh;
         }
 
-        .topbar {
-            background: #0f172a;
-            color: white;
-            padding: 18px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #0b0b0b;
+            border-right: 1px solid #222;
+            padding: 25px 18px;
+            z-index: 1000;
         }
 
         .logo {
-            font-size: 23px;
-            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            font-size: 27px;
+            color: #ffffff;
+            letter-spacing: 1px;
         }
 
         .logo span {
-            color: #60a5fa;
+            color: #00a8ff;
+        }
+
+        .logo p {
+            color: #777;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 10px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            text-decoration: none;
+            color: #aaa;
+            padding: 14px 15px;
+            border-radius: 10px;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #151515;
+            color: #ffffff;
+        }
+
+        .menu a.active {
+            border-left: 3px solid #00a8ff;
+        }
+
+        .icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
         }
 
         .logout {
-            color: white;
-            text-decoration: none;
-            background: #dc2626;
-            padding: 8px 13px;
-            border-radius: 8px;
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .logout a {
+            color: #ff5555;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h2 {
+            font-size: 27px;
+        }
+
+        .topbar p {
+            color: #777;
+            margin-top: 6px;
             font-size: 13px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 30px 20px;
+        .admin {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #101010;
+            border: 1px solid #222;
+            padding: 9px 15px;
+            border-radius: 30px;
         }
 
-        .welcome {
-            margin-bottom: 25px;
+        .admin-circle {
+            width: 35px;
+            height: 35px;
+            background: #00a8ff;
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
-        .welcome h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
+        .admin-info strong {
+            display: block;
+            font-size: 13px;
         }
 
-        .welcome p {
-            color: #64748b;
+        .admin-info small {
+            color: #777;
+            font-size: 11px;
         }
 
+        /* STATS */
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            gap: 18px;
             margin-bottom: 25px;
         }
 
         .card {
-            background: white;
+            background: #0d0d0d;
+            border: 1px solid #222;
+            border-radius: 14px;
             padding: 22px;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
         }
 
-        .label {
-            color: #64748b;
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card .label {
+            color: #888;
             font-size: 13px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        .number {
+        .stat-card h3 {
             font-size: 30px;
-            font-weight: bold;
         }
 
-        .section {
-            background: white;
-            padding: 22px;
-            border-radius: 16px;
-            margin-bottom: 22px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        .stat-card .small {
+            color: #00d084;
+            font-size: 12px;
+            margin-top: 8px;
         }
 
-        .section h2 {
-            margin-bottom: 18px;
-            font-size: 20px;
+        .stat-icon {
+            position: absolute;
+            right: 20px;
+            top: 22px;
+            font-size: 25px;
+            opacity: 0.5;
         }
 
-        .form {
+        /* CONTENT GRID */
+        .content-grid {
             display: grid;
-            grid-template-columns:
-                1fr 1fr 1fr 1fr auto;
-            gap: 12px;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
         }
 
-        input {
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+        }
+
+        .card-header a {
+            color: #00a8ff;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        /* TABLE */
+        .table-container {
             width: 100%;
-            padding: 13px;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            outline: none;
-            font-size: 14px;
-        }
-
-        input:focus {
-            border-color: #2563eb;
-        }
-
-        button {
-            border: none;
-            background: #2563eb;
-            color: white;
-            padding: 13px 18px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-        .table-box {
             overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 700px;
         }
 
         th {
-            background: #f8fafc;
-            color: #475569;
+            color: #666;
+            font-size: 11px;
             text-align: left;
-            padding: 14px;
-            font-size: 13px;
+            padding: 12px 8px;
+            border-bottom: 1px solid #222;
+            text-transform: uppercase;
         }
 
         td {
-            padding: 14px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 14px;
-        }
-
-        .status {
-            background: #dcfce7;
-            color: #166534;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .qr {
-            background: #0f172a;
-            color: white;
-            text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 8px;
+            padding: 14px 8px;
+            border-bottom: 1px solid #171717;
             font-size: 12px;
         }
 
-        .qr:hover {
-            background: #1e293b;
+        td:first-child {
+            color: #00a8ff;
+            font-weight: bold;
         }
 
-        .empty {
-            text-align: center;
-            color: #94a3b8;
-            padding: 25px;
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            background: #10251c;
+            color: #00d084;
         }
 
-        .message {
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 14px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .status.failed {
+            background: #281313;
+            color: #ff5555;
+        }
+
+        .status.pending {
+            background: #27220f;
+            color: #ffc107;
+        }
+
+        /* QUICK ACTIONS */
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .action {
+            background: #111;
+            border: 1px solid #252525;
+            border-radius: 12px;
+            padding: 18px;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.2s;
+        }
+
+        .action:hover {
+            border-color: #00a8ff;
+            transform: translateY(-2px);
+        }
+
+        .action .action-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .action strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .action span {
+            color: #777;
+            font-size: 11px;
+        }
+
+        /* SYSTEM STATUS */
+        .system {
+            margin-top: 20px;
+        }
+
+        .system-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0;
+            border-bottom: 1px solid #1c1c1c;
+        }
+
+        .system-item:last-child {
+            border-bottom: none;
+        }
+
+        .system-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #00d084;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00d084;
+        }
+
+        .online {
+            color: #00d084;
+            font-size: 11px;
+        }
+
+        /* MOBILE */
+        .mobile-header {
+            display: none;
         }
 
         @media (max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #0b0b0b;
+                border-bottom: 1px solid #222;
+                padding: 15px 18px;
+            }
+
+            .mobile-header h2 {
+                font-size: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .topbar {
+                display: block;
+            }
+
+            .topbar h2 {
+                font-size: 23px;
+            }
+
+            .admin {
+                margin-top: 15px;
+                width: fit-content;
+            }
 
             .stats {
                 grid-template-columns: 1fr 1fr;
+                gap: 10px;
             }
 
-            .form {
+            .card {
+                padding: 16px;
+            }
+
+            .stat-card h3 {
+                font-size: 24px;
+            }
+
+            .actions {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+        <h2>Exam<span style="color:#00a8ff;">Lock</span></h2>
+        <span>🔐</span>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h1>Exam<span>Lock</span></h1>
+            <p>EXAMINATION SECURITY SYSTEM</p>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{{ url_for('dashboard') }}" class="active">
+                    <span class="icon">▦</span>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('upload_paper') }}">
+                    <span class="icon">⬆</span>
+                    Upload Paper
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('papers') }}">
+                    <span class="icon">▤</span>
+                    Exam Papers
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('logs') }}">
+                    <span class="icon">◷</span>
+                    Verification Logs
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('verify') }}">
+                    <span class="icon">✓</span>
+                    Verify Paper
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="logout">
+            <a href="{{ url_for('logout') }}" class="menu a">
+                <span class="icon">⇥</span>
+                Logout
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h2>Dashboard</h2>
+                <p>Welcome to the ExamLock security control center.</p>
+            </div>
+
+            <div class="admin">
+                <div class="admin-circle">A</div>
+
+                <div class="admin-info">
+                    <strong>Administrator</strong>
+                    <small>System Admin</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+        <section class="stats">
+
+            <div class="card stat-card">
+                <div class="label">TOTAL PAPERS</div>
+                <h3>{{ total_papers|default(0) }}</h3>
+                <div class="small">Secure papers</div>
+                <div class="stat-icon">📄</div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="label">VERIFICATIONS</div>
+                <h3>{{ total_verifications|default(0) }}</h3>
+                <div class="small">Total scans</div>
+                <div class="stat-icon">✓</div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="label">SUCCESSFUL</div>
+                <h3>{{ successful_verifications|default(0) }}</h3>
+                <div class="small">Verified papers</div>
+                <div class="stat-icon">🔒</div>
+            </div>
+
+            <div class="card stat-card">
+                <div class="label">FAILED</div>
+                <h3>{{ failed_verifications|default(0) }}</h3>
+                <div class="small" style="color:#ff5555;">Invalid attempts</div>
+                <div class="stat-icon">⚠</div>
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT -->
+        <section class="content-grid">
+
+            <!-- RECENT VERIFICATION -->
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Recent Verification</h3>
+
+                    <a href="{{ url_for('logs') }}">
+                        View All →
+                    </a>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Paper ID</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% if recent_logs %}
+
+                            {% for log in recent_logs %}
+
+                            <tr>
+
+                                <td>
+                                    {{ log.paper_id|default('N/A') }}
+                                </td>
+
+                                <td>
+                                    {{ log.subject|default('Unknown') }}
+                                </td>
+
+                                <td>
+
+                                    {% if log.status == 'Verified' or log.status == 'SUCCESS' or log.status == 'success' %}
+
+                                        <span class="status">
+                                            VERIFIED
+                                        </span>
+
+                                    {% elif log.status == 'Failed' or log.status == 'FAILED' or log.status == 'failed' %}
+
+                                        <span class="status failed">
+                                            FAILED
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status pending">
+                                            {{ log.status|default('UNKNOWN') }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {{ log.created_at|default(log.timestamp|default('N/A')) }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <tr>
+                                <td colspan="4"
+                                    style="text-align:center;color:#666;padding:35px;">
+                                    No verification records found
+                                </td>
+                            </tr>
+
+                        {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+            <div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+
+                    <div class="actions">
+
+                        <a href="{{ url_for('upload_paper') }}"
+                           class="action">
+
+                            <div class="action-icon">📤</div>
+
+                            <strong>Upload Paper</strong>
+
+                            <span>
+                                Add secure exam paper
+                            </span>
+
+                        </a>
+
+
+                        <a href="{{ url_for('verify') }}"
+                           class="action">
+
+                            <div class="action-icon">📷</div>
+
+                            <strong>Verify QR</strong>
+
+                            <span>
+                                Scan exam paper
+                            </span>
+
+                        </a>
+
+
+                        <a href="{{ url_for('papers') }}"
+                           class="action">
+
+                            <div class="action-icon">📁</div>
+
+                            <strong>View Papers</strong>
+
+                            <span>
+                                Manage exam papers
+                            </span>
+
+                        </a>
+
+
+                        <a href="{{ url_for('logs') }}"
+                           class="action">
+
+                            <div class="action-icon">📊</div>
+
+                            <strong>View Logs</strong>
+
+                            <span>
+                                Verification history
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SYSTEM STATUS -->
+                <div class="card system">
+
+                    <div class="card-header">
+                        <h3>System Status</h3>
+                    </div>
+
+                    <div class="system-item">
+
+                        <div class="system-name">
+                            <span class="dot"></span>
+                            Database
+                        </div>
+
+                        <span class="online">
+                            ONLINE
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-item">
+
+                        <div class="system-name">
+                            <span class="dot"></span>
+                            QR Verification
+                        </div>
+
+                        <span class="online">
+                            ACTIVE
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-item">
+
+                        <div class="system-name">
+                            <span class="dot"></span>
+                            Security System
+                        </div>
+
+                        <span class="online">
+                            SECURE
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-item">
+
+                        <div class="system-name">
+                            <span class="dot"></span>
+                            Server
+                        </div>
+
+                        <span class="online">
+                            RUNNING
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
