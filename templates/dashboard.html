@@ -16,11 +16,10 @@
 
         body {
             background: #050505;
-            color: #ffffff;
+            color: #fff;
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
         .sidebar {
             position: fixed;
             left: 0;
@@ -40,7 +39,6 @@
 
         .logo h1 {
             font-size: 27px;
-            color: #ffffff;
             letter-spacing: 1px;
         }
 
@@ -50,8 +48,9 @@
 
         .logo p {
             color: #777;
-            font-size: 11px;
-            margin-top: 5px;
+            font-size: 10px;
+            margin-top: 6px;
+            letter-spacing: 1px;
         }
 
         .menu {
@@ -59,25 +58,24 @@
         }
 
         .menu li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .menu a {
             display: flex;
             align-items: center;
-            gap: 13px;
+            gap: 12px;
+            padding: 14px;
+            color: #999;
             text-decoration: none;
-            color: #aaa;
-            padding: 14px 15px;
             border-radius: 10px;
-            transition: 0.2s;
             font-size: 14px;
         }
 
         .menu a:hover,
         .menu a.active {
             background: #151515;
-            color: #ffffff;
+            color: #fff;
         }
 
         .menu a.active {
@@ -87,7 +85,6 @@
         .icon {
             width: 22px;
             text-align: center;
-            font-size: 17px;
         }
 
         .logout {
@@ -101,7 +98,6 @@
             color: #ff5555;
         }
 
-        /* MAIN */
         .main {
             margin-left: 250px;
             padding: 30px;
@@ -115,13 +111,13 @@
         }
 
         .topbar h2 {
-            font-size: 27px;
+            font-size: 28px;
         }
 
         .topbar p {
             color: #777;
-            margin-top: 6px;
             font-size: 13px;
+            margin-top: 6px;
         }
 
         .admin {
@@ -135,14 +131,14 @@
         }
 
         .admin-circle {
-            width: 35px;
-            height: 35px;
+            width: 36px;
+            height: 36px;
             background: #00a8ff;
             color: #000;
             border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             font-weight: bold;
         }
 
@@ -156,7 +152,25 @@
             font-size: 11px;
         }
 
-        /* STATS */
+        .flash {
+            padding: 13px 16px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            background: #111;
+            border: 1px solid #333;
+            font-size: 13px;
+        }
+
+        .flash.success {
+            color: #00d084;
+            border-color: #00d084;
+        }
+
+        .flash.error {
+            color: #ff5555;
+            border-color: #ff5555;
+        }
+
         .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -173,12 +187,11 @@
 
         .stat-card {
             position: relative;
-            overflow: hidden;
         }
 
-        .stat-card .label {
-            color: #888;
-            font-size: 13px;
+        .label {
+            color: #777;
+            font-size: 12px;
             margin-bottom: 12px;
         }
 
@@ -186,21 +199,20 @@
             font-size: 30px;
         }
 
-        .stat-card .small {
+        .small {
             color: #00d084;
-            font-size: 12px;
-            margin-top: 8px;
+            font-size: 11px;
+            margin-top: 7px;
         }
 
         .stat-icon {
             position: absolute;
             right: 20px;
-            top: 22px;
+            top: 20px;
             font-size: 25px;
-            opacity: 0.5;
+            opacity: .5;
         }
 
-        /* CONTENT GRID */
         .content-grid {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
@@ -218,13 +230,6 @@
             font-size: 17px;
         }
 
-        .card-header a {
-            color: #00a8ff;
-            text-decoration: none;
-            font-size: 12px;
-        }
-
-        /* TABLE */
         .table-container {
             width: 100%;
             overflow-x: auto;
@@ -237,20 +242,19 @@
 
         th {
             color: #666;
-            font-size: 11px;
+            font-size: 10px;
             text-align: left;
             padding: 12px 8px;
             border-bottom: 1px solid #222;
-            text-transform: uppercase;
         }
 
         td {
-            padding: 14px 8px;
+            padding: 13px 8px;
             border-bottom: 1px solid #171717;
             font-size: 12px;
         }
 
-        td:first-child {
+        .paper-id {
             color: #00a8ff;
             font-weight: bold;
         }
@@ -264,55 +268,42 @@
             color: #00d084;
         }
 
-        .status.failed {
+        .failed {
             background: #281313;
             color: #ff5555;
         }
 
-        .status.pending {
-            background: #27220f;
-            color: #ffc107;
-        }
-
-        /* QUICK ACTIONS */
-        .actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .action {
+        .action-box {
             background: #111;
             border: 1px solid #252525;
             border-radius: 12px;
             padding: 18px;
-            text-decoration: none;
-            color: #fff;
-            transition: 0.2s;
+            margin-bottom: 12px;
         }
 
-        .action:hover {
-            border-color: #00a8ff;
-            transform: translateY(-2px);
+        .action-box h4 {
+            margin-bottom: 6px;
+            font-size: 14px;
         }
 
-        .action .action-icon {
-            font-size: 25px;
-            margin-bottom: 10px;
-        }
-
-        .action strong {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-
-        .action span {
+        .action-box p {
             color: #777;
             font-size: 11px;
+            line-height: 1.5;
         }
 
-        /* SYSTEM STATUS */
+        .action-box a {
+            display: inline-block;
+            margin-top: 12px;
+            background: #00a8ff;
+            color: #000;
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
         .system {
             margin-top: 20px;
         }
@@ -330,19 +321,8 @@
         }
 
         .system-name {
-            display: flex;
-            align-items: center;
-            gap: 10px;
             color: #aaa;
             font-size: 12px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #00d084;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #00d084;
         }
 
         .online {
@@ -350,12 +330,56 @@
             font-size: 11px;
         }
 
-        /* MOBILE */
-        .mobile-header {
-            display: none;
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00d084;
+            border-radius: 50%;
+            margin-right: 8px;
         }
 
-        @media (max-width: 1000px) {
+        .add-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 13px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #999;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            background: #080808;
+            color: #fff;
+            border: 1px solid #292929;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #00a8ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #00a8ff;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media(max-width:1000px) {
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -365,41 +389,23 @@
             }
         }
 
-        @media (max-width: 700px) {
-
+        @media(max-width:700px) {
             .sidebar {
                 display: none;
             }
 
-            .mobile-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background: #0b0b0b;
-                border-bottom: 1px solid #222;
-                padding: 15px 18px;
-            }
-
-            .mobile-header h2 {
-                font-size: 20px;
-            }
-
             .main {
                 margin-left: 0;
-                padding: 20px 15px;
+                padding: 18px 14px;
             }
 
             .topbar {
                 display: block;
             }
 
-            .topbar h2 {
-                font-size: 23px;
-            }
-
             .admin {
-                margin-top: 15px;
                 width: fit-content;
+                margin-top: 15px;
             }
 
             .stats {
@@ -412,15 +418,11 @@
             }
 
             .stat-card h3 {
-                font-size: 24px;
-            }
-
-            .actions {
-                grid-template-columns: 1fr 1fr;
+                font-size: 25px;
             }
         }
 
-        @media (max-width: 400px) {
+        @media(max-width:400px) {
             .stats {
                 grid-template-columns: 1fr;
             }
@@ -430,360 +432,484 @@
 
 <body>
 
-    <!-- MOBILE HEADER -->
-    <div class="mobile-header">
-        <h2>Exam<span style="color:#00a8ff;">Lock</span></h2>
-        <span>🔐</span>
+<!-- ===================================================== -->
+<!-- SIDEBAR -->
+<!-- ===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <h1>Exam<span>Lock</span></h1>
+        <p>EXAMINATION SECURITY SYSTEM</p>
     </div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <ul class="menu">
 
-        <div class="logo">
-            <h1>Exam<span>Lock</span></h1>
-            <p>EXAMINATION SECURITY SYSTEM</p>
-        </div>
-
-        <ul class="menu">
-
-            <li>
-                <a href="{{ url_for('dashboard') }}" class="active">
-                    <span class="icon">▦</span>
-                    Dashboard
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ url_for('upload_paper') }}">
-                    <span class="icon">⬆</span>
-                    Upload Paper
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ url_for('papers') }}">
-                    <span class="icon">▤</span>
-                    Exam Papers
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ url_for('logs') }}">
-                    <span class="icon">◷</span>
-                    Verification Logs
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ url_for('verify') }}">
-                    <span class="icon">✓</span>
-                    Verify Paper
-                </a>
-            </li>
-
-        </ul>
-
-        <div class="logout">
-            <a href="{{ url_for('logout') }}" class="menu a">
-                <span class="icon">⇥</span>
-                Logout
+        <!-- EXISTING ROUTE -->
+        <li>
+            <a href="{{ url_for('dashboard') }}" class="active">
+                <span class="icon">▦</span>
+                Dashboard
             </a>
+        </li>
+
+        <!-- NO url_for HERE -->
+        <li>
+            <a href="#add-paper">
+                <span class="icon">＋</span>
+                Add Secure Paper
+            </a>
+        </li>
+
+        <li>
+            <a href="#papers">
+                <span class="icon">▤</span>
+                Exam Papers
+            </a>
+        </li>
+
+        <li>
+            <a href="#logs">
+                <span class="icon">◷</span>
+                Verification Logs
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="logout">
+        <!-- EXISTING ROUTE -->
+        <a href="{{ url_for('logout') }}">
+            <span class="icon">⇥</span>
+            Logout
+        </a>
+    </div>
+
+</aside>
+
+
+<!-- ===================================================== -->
+<!-- MAIN -->
+<!-- ===================================================== -->
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div>
+            <h2>Dashboard</h2>
+            <p>Welcome to the ExamLock security control center.</p>
         </div>
 
-    </aside>
+        <div class="admin">
 
-    <!-- MAIN -->
-    <main class="main">
-
-        <div class="topbar">
-
-            <div>
-                <h2>Dashboard</h2>
-                <p>Welcome to the ExamLock security control center.</p>
+            <div class="admin-circle">
+                {{ username[0]|upper }}
             </div>
 
-            <div class="admin">
-                <div class="admin-circle">A</div>
+            <div class="admin-info">
+                <strong>{{ username }}</strong>
+                <small>{{ role }}</small>
+            </div>
 
-                <div class="admin-info">
-                    <strong>Administrator</strong>
-                    <small>System Admin</small>
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- FLASH MESSAGES -->
+    <!-- ================================================= -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="flash {{ category }}">
+                    {{ message }}
                 </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- ================================================= -->
+    <!-- STATISTICS -->
+    <!-- ================================================= -->
+
+    <section class="stats">
+
+        <div class="card stat-card">
+
+            <div class="label">
+                SECURED PAPERS
+            </div>
+
+            <h3>
+                {{ secured_papers }}
+            </h3>
+
+            <div class="small">
+                Secure examination papers
+            </div>
+
+            <div class="stat-icon">
+                🔐
             </div>
 
         </div>
 
 
-        <!-- STATISTICS -->
-        <section class="stats">
+        <div class="card stat-card">
 
-            <div class="card stat-card">
-                <div class="label">TOTAL PAPERS</div>
-                <h3>{{ total_papers|default(0) }}</h3>
-                <div class="small">Secure papers</div>
-                <div class="stat-icon">📄</div>
+            <div class="label">
+                QR VERIFICATIONS
             </div>
 
-            <div class="card stat-card">
-                <div class="label">VERIFICATIONS</div>
-                <h3>{{ total_verifications|default(0) }}</h3>
-                <div class="small">Total scans</div>
-                <div class="stat-icon">✓</div>
+            <h3>
+                {{ verified_scans }}
+            </h3>
+
+            <div class="small">
+                Successful QR scans
             </div>
 
-            <div class="card stat-card">
-                <div class="label">SUCCESSFUL</div>
-                <h3>{{ successful_verifications|default(0) }}</h3>
-                <div class="small">Verified papers</div>
-                <div class="stat-icon">🔒</div>
+            <div class="stat-icon">
+                ✓
             </div>
 
-            <div class="card stat-card">
-                <div class="label">FAILED</div>
-                <h3>{{ failed_verifications|default(0) }}</h3>
-                <div class="small" style="color:#ff5555;">Invalid attempts</div>
-                <div class="stat-icon">⚠</div>
+        </div>
+
+
+        <div class="card stat-card">
+
+            <div class="label">
+                ACTIVE ALERTS
             </div>
 
-        </section>
+            <h3>
+                {{ active_alerts }}
+            </h3>
+
+            <div class="small" style="color:#ff5555;">
+                Security alerts
+            </div>
+
+            <div class="stat-icon">
+                ⚠
+            </div>
+
+        </div>
 
 
-        <!-- CONTENT -->
-        <section class="content-grid">
+        <div class="card stat-card">
 
-            <!-- RECENT VERIFICATION -->
-            <div class="card">
+            <div class="label">
+                TOTAL EVENTS
+            </div>
+
+            <h3>
+                {{ total_events }}
+            </h3>
+
+            <div class="small">
+                System activity
+            </div>
+
+            <div class="stat-icon">
+                📊
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- CONTENT -->
+    <!-- ================================================= -->
+
+    <section class="content-grid">
+
+
+        <!-- ============================================= -->
+        <!-- PAPERS -->
+        <!-- ============================================= -->
+
+        <div class="card" id="papers">
+
+            <div class="card-header">
+
+                <h3>
+                    Secured Exam Papers
+                </h3>
+
+                <span style="color:#777;font-size:11px;">
+                    {{ papers|length }} papers
+                </span>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>PAPER ID</th>
+                            <th>UNIVERSITY</th>
+                            <th>EXAM</th>
+                            <th>SUBJECT</th>
+                            <th>STATUS</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% if papers %}
+
+                        {% for paper in papers %}
+
+                        <tr>
+
+                            <td class="paper-id">
+                                {{ paper["paper_id"] }}
+                            </td>
+
+                            <td>
+                                {{ paper["university"] }}
+                            </td>
+
+                            <td>
+                                {{ paper["exam"] }}
+                            </td>
+
+                            <td>
+                                {{ paper["subject"] }}
+                            </td>
+
+                            <td>
+
+                                {% if paper["status"] == "SECURED" %}
+
+                                    <span class="status">
+                                        SECURED
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status">
+                                        {{ paper["status"] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="5"
+                                style="text-align:center;color:#666;padding:35px;">
+
+                                No exam papers found.
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- RIGHT SIDE -->
+        <!-- ============================================= -->
+
+        <div>
+
+
+            <!-- ========================================= -->
+            <!-- ADD PAPER -->
+            <!-- ========================================= -->
+
+            <div class="card" id="add-paper">
 
                 <div class="card-header">
-                    <h3>Recent Verification</h3>
 
-                    <a href="{{ url_for('logs') }}">
-                        View All →
+                    <h3>
+                        Add Secure Paper
+                    </h3>
+
+                </div>
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for('add_paper') }}"
+                    class="add-form"
+                >
+
+                    <div class="form-group">
+
+                        <label>
+                            PAPER ID
+                        </label>
+
+                        <input
+                            type="text"
+                            name="paper_id"
+                            placeholder="Example: EX-123456"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            UNIVERSITY
+                        </label>
+
+                        <input
+                            type="text"
+                            name="university"
+                            placeholder="University name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            EXAM
+                        </label>
+
+                        <input
+                            type="text"
+                            name="exam"
+                            placeholder="Example: BCA Semester Exam"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            SUBJECT
+                        </label>
+
+                        <input
+                            type="text"
+                            name="subject"
+                            placeholder="Example: DBMS"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button type="submit">
+                        🔐 SECURE PAPER
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- ========================================= -->
+            <!-- QUICK ACTION -->
+            <!-- ========================================= -->
+
+            <div class="card system">
+
+                <div class="card-header">
+
+                    <h3>
+                        Quick Actions
+                    </h3>
+
+                </div>
+
+
+                <div class="action-box">
+
+                    <h4>
+                        📷 Verify QR Paper
+                    </h4>
+
+                    <p>
+                        Scan the QR code printed on an examination
+                        paper to verify its authenticity.
+                    </p>
+
+                </div>
+
+
+                <div class="action-box">
+
+                    <h4>
+                        🔐 Secure New Paper
+                    </h4>
+
+                    <p>
+                        Add university, examination and subject
+                        information to secure a new paper.
+                    </p>
+
+                    <a href="#add-paper">
+                        ADD PAPER
                     </a>
-                </div>
-
-                <div class="table-container">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>Paper ID</th>
-                                <th>Subject</th>
-                                <th>Status</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                        {% if recent_logs %}
-
-                            {% for log in recent_logs %}
-
-                            <tr>
-
-                                <td>
-                                    {{ log.paper_id|default('N/A') }}
-                                </td>
-
-                                <td>
-                                    {{ log.subject|default('Unknown') }}
-                                </td>
-
-                                <td>
-
-                                    {% if log.status == 'Verified' or log.status == 'SUCCESS' or log.status == 'success' %}
-
-                                        <span class="status">
-                                            VERIFIED
-                                        </span>
-
-                                    {% elif log.status == 'Failed' or log.status == 'FAILED' or log.status == 'failed' %}
-
-                                        <span class="status failed">
-                                            FAILED
-                                        </span>
-
-                                    {% else %}
-
-                                        <span class="status pending">
-                                            {{ log.status|default('UNKNOWN') }}
-                                        </span>
-
-                                    {% endif %}
-
-                                </td>
-
-                                <td>
-                                    {{ log.created_at|default(log.timestamp|default('N/A')) }}
-                                </td>
-
-                            </tr>
-
-                            {% endfor %}
-
-                        {% else %}
-
-                            <tr>
-                                <td colspan="4"
-                                    style="text-align:center;color:#666;padding:35px;">
-                                    No verification records found
-                                </td>
-                            </tr>
-
-                        {% endif %}
-
-                        </tbody>
-
-                    </table>
 
                 </div>
 
             </div>
 
 
-            <!-- RIGHT SIDE -->
-            <div>
+            <!-- ========================================= -->
+            <!-- SYSTEM STATUS -->
+            <!-- ========================================= -->
 
-                <!-- QUICK ACTIONS -->
-                <div class="card">
+            <div class="card system">
 
-                    <div class="card-header">
-                        <h3>Quick Actions</h3>
-                    </div>
+                <div class="card-header">
 
-                    <div class="actions">
-
-                        <a href="{{ url_for('upload_paper') }}"
-                           class="action">
-
-                            <div class="action-icon">📤</div>
-
-                            <strong>Upload Paper</strong>
-
-                            <span>
-                                Add secure exam paper
-                            </span>
-
-                        </a>
-
-
-                        <a href="{{ url_for('verify') }}"
-                           class="action">
-
-                            <div class="action-icon">📷</div>
-
-                            <strong>Verify QR</strong>
-
-                            <span>
-                                Scan exam paper
-                            </span>
-
-                        </a>
-
-
-                        <a href="{{ url_for('papers') }}"
-                           class="action">
-
-                            <div class="action-icon">📁</div>
-
-                            <strong>View Papers</strong>
-
-                            <span>
-                                Manage exam papers
-                            </span>
-
-                        </a>
-
-
-                        <a href="{{ url_for('logs') }}"
-                           class="action">
-
-                            <div class="action-icon">📊</div>
-
-                            <strong>View Logs</strong>
-
-                            <span>
-                                Verification history
-                            </span>
-
-                        </a>
-
-                    </div>
+                    <h3>
+                        System Status
+                    </h3>
 
                 </div>
 
 
-                <!-- SYSTEM STATUS -->
-                <div class="card system">
+                <div class="system-item">
 
-                    <div class="card-header">
-                        <h3>System Status</h3>
-                    </div>
-
-                    <div class="system-item">
-
-                        <div class="system-name">
-                            <span class="dot"></span>
-                            Database
-                        </div>
-
-                        <span class="online">
-                            ONLINE
-                        </span>
-
-                    </div>
-
-
-                    <div class="system-item">
-
-                        <div class="system-name">
-                            <span class="dot"></span>
-                            QR Verification
-                        </div>
-
-                        <span class="online">
-                            ACTIVE
-                        </span>
-
-                    </div>
-
-
-                    <div class="system-item">
-
-                        <div class="system-name">
-                            <span class="dot"></span>
-                            Security System
-                        </div>
-
-                        <span class="online">
-                            SECURE
-                        </span>
-
-                    </div>
-
-
-                    <div class="system-item">
-
-                        <div class="system-name">
-                            <span class="dot"></span>
-                            Server
-                        </div>
-
-                        <span class="online">
-                            RUNNING
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</body>
-</html>
+                    <span class="system-name">
+                        <span class="dot"></span>
+                  
