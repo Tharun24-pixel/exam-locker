@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>ExamLock Dashboard</title>
 
     <style>
@@ -104,15 +105,21 @@
 
         .form {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
+            grid-template-columns: repeat(4, 1fr) auto;
             gap: 12px;
         }
 
         input {
+            width: 100%;
             padding: 13px;
             border: 1px solid #cbd5e1;
             border-radius: 10px;
             outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #2563eb;
         }
 
         button {
@@ -123,6 +130,7 @@
             border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         button:hover {
@@ -136,6 +144,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 700px;
         }
 
         th {
@@ -166,6 +175,7 @@
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 12px;
+            display: inline-block;
         }
 
         .empty {
@@ -174,7 +184,8 @@
             padding: 25px;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
+
             .stats {
                 grid-template-columns: 1fr 1fr;
             }
@@ -182,27 +193,54 @@
             .form {
                 grid-template-columns: 1fr 1fr;
             }
+
+            .form button {
+                grid-column: span 2;
+            }
         }
 
         @media (max-width: 600px) {
+
+            .topbar {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
             .container {
                 padding: 20px 12px;
             }
 
             .stats {
                 grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .number {
+                font-size: 26px;
             }
 
             .form {
                 grid-template-columns: 1fr;
             }
 
-            button {
+            .form button {
+                grid-column: auto;
                 width: 100%;
             }
 
             .welcome h1 {
                 font-size: 23px;
+            }
+
+            .section {
+                padding: 18px;
             }
         }
     </style>
@@ -248,6 +286,8 @@
     {% endwith %}
 
 
+    <!-- STATISTICS -->
+
     <div class="stats">
 
         <div class="card">
@@ -273,6 +313,8 @@
     </div>
 
 
+    <!-- SECURE NEW EXAMINATION PAPER -->
+
     <div class="section">
 
         <h2>Secure New Examination Paper</h2>
@@ -285,6 +327,13 @@
                     type="text"
                     name="paper_id"
                     placeholder="Paper ID"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="university"
+                    placeholder="University"
                     required
                 >
 
@@ -313,6 +362,8 @@
     </div>
 
 
+    <!-- SECURED EXAMINATION PAPERS -->
+
     <div class="section">
 
         <h2>Secured Examination Papers</h2>
@@ -322,13 +373,16 @@
             <table>
 
                 <thead>
+
                     <tr>
                         <th>Paper ID</th>
+                        <th>University</th>
                         <th>Exam</th>
                         <th>Subject</th>
                         <th>Status</th>
                         <th>QR</th>
                     </tr>
+
                 </thead>
 
                 <tbody>
@@ -339,6 +393,10 @@
 
                         <td>
                             <b>{{ paper["paper_id"] }}</b>
+                        </td>
+
+                        <td>
+                            {{ paper["university"] }}
                         </td>
 
                         <td>
@@ -370,7 +428,7 @@
                     {% else %}
 
                     <tr>
-                        <td colspan="5" class="empty">
+                        <td colspan="6" class="empty">
                             No examination papers available.
                         </td>
                     </tr>
@@ -386,6 +444,8 @@
     </div>
 
 
+    <!-- RECENT VERIFICATION ACTIVITY -->
+
     <div class="section">
 
         <h2>Recent Verification Activity</h2>
@@ -395,12 +455,14 @@
             <table>
 
                 <thead>
+
                     <tr>
                         <th>Paper ID</th>
                         <th>Action</th>
                         <th>Verified By</th>
                         <th>Time</th>
                     </tr>
+
                 </thead>
 
                 <tbody>
