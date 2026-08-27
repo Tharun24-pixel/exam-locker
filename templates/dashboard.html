@@ -105,7 +105,7 @@
 
         .form {
             display: grid;
-            grid-template-columns: repeat(4, 1fr) auto;
+            grid-template-columns: 1fr 1fr 1fr 1fr auto;
             gap: 12px;
         }
 
@@ -175,7 +175,6 @@
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 12px;
-            display: inline-block;
         }
 
         .empty {
@@ -184,8 +183,15 @@
             padding: 25px;
         }
 
-        @media (max-width: 1000px) {
+        .message {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
+        @media (max-width: 1000px) {
             .stats {
                 grid-template-columns: 1fr 1fr;
             }
@@ -193,20 +199,11 @@
             .form {
                 grid-template-columns: 1fr 1fr;
             }
-
-            .form button {
-                grid-column: span 2;
-            }
         }
 
         @media (max-width: 600px) {
-
             .topbar {
                 padding: 15px;
-            }
-
-            .logo {
-                font-size: 20px;
             }
 
             .container {
@@ -219,19 +216,18 @@
             }
 
             .card {
-                padding: 18px;
+                padding: 17px;
             }
 
             .number {
-                font-size: 26px;
+                font-size: 25px;
             }
 
             .form {
                 grid-template-columns: 1fr;
             }
 
-            .form button {
-                grid-column: auto;
+            button {
                 width: 100%;
             }
 
@@ -239,8 +235,10 @@
                 font-size: 23px;
             }
 
-            .section {
-                padding: 18px;
+            .topbar {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
             }
         }
     </style>
@@ -268,8 +266,15 @@
 <div class="container">
 
     <div class="welcome">
-        <h1>Examination Security Dashboard</h1>
-        <p>Manage and secure examination papers.</p>
+
+        <h1>
+            Examination Security Dashboard
+        </h1>
+
+        <p>
+            Manage and secure examination papers.
+        </p>
+
     </div>
 
 
@@ -277,7 +282,7 @@
 
         {% for message in messages %}
 
-            <div class="section">
+            <div class="message">
                 {{ message }}
             </div>
 
@@ -291,37 +296,72 @@
     <div class="stats">
 
         <div class="card">
-            <div class="label">SECURED PAPERS</div>
-            <div class="number">{{ secured_papers }}</div>
+
+            <div class="label">
+                SECURED PAPERS
+            </div>
+
+            <div class="number">
+                {{ secured_papers }}
+            </div>
+
         </div>
 
-        <div class="card">
-            <div class="label">QR VERIFICATIONS</div>
-            <div class="number">{{ verified_scans }}</div>
-        </div>
 
         <div class="card">
-            <div class="label">ACTIVE ALERTS</div>
-            <div class="number">{{ active_alerts }}</div>
+
+            <div class="label">
+                QR VERIFICATIONS
+            </div>
+
+            <div class="number">
+                {{ verified_scans }}
+            </div>
+
         </div>
 
+
         <div class="card">
-            <div class="label">TOTAL EVENTS</div>
-            <div class="number">{{ total_events }}</div>
+
+            <div class="label">
+                ACTIVE ALERTS
+            </div>
+
+            <div class="number">
+                {{ active_alerts }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="label">
+                TOTAL EVENTS
+            </div>
+
+            <div class="number">
+                {{ total_events }}
+            </div>
+
         </div>
 
     </div>
 
 
-    <!-- SECURE NEW EXAMINATION PAPER -->
+    <!-- SECURE NEW PAPER -->
 
     <div class="section">
 
-        <h2>Secure New Examination Paper</h2>
+        <h2>
+            Secure New Examination Paper
+        </h2>
 
         <form method="POST" action="/create-paper">
 
             <div class="form">
+
+                <!-- PAPER ID -->
 
                 <input
                     type="text"
@@ -330,12 +370,18 @@
                     required
                 >
 
+
+                <!-- UNIVERSITY -->
+
                 <input
                     type="text"
                     name="university"
                     placeholder="University"
                     required
                 >
+
+
+                <!-- EXAM -->
 
                 <input
                     type="text"
@@ -344,12 +390,16 @@
                     required
                 >
 
+
+                <!-- SUBJECT -->
+
                 <input
                     type="text"
                     name="subject"
                     placeholder="Subject"
                     required
                 >
+
 
                 <button type="submit">
                     + Secure Paper
@@ -362,11 +412,13 @@
     </div>
 
 
-    <!-- SECURED EXAMINATION PAPERS -->
+    <!-- SECURED PAPERS -->
 
     <div class="section">
 
-        <h2>Secured Examination Papers</h2>
+        <h2>
+            Secured Examination Papers
+        </h2>
 
         <div class="table-box">
 
@@ -375,15 +427,35 @@
                 <thead>
 
                     <tr>
-                        <th>Paper ID</th>
-                        <th>University</th>
-                        <th>Exam</th>
-                        <th>Subject</th>
-                        <th>Status</th>
-                        <th>QR</th>
+
+                        <th>
+                            Paper ID
+                        </th>
+
+                        <th>
+                            University
+                        </th>
+
+                        <th>
+                            Exam
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            QR
+                        </th>
+
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -392,28 +464,38 @@
                     <tr>
 
                         <td>
-                            <b>{{ paper["paper_id"] }}</b>
+                            <b>
+                                {{ paper["paper_id"] }}
+                            </b>
                         </td>
+
 
                         <td>
                             {{ paper["university"] }}
                         </td>
 
+
                         <td>
                             {{ paper["exam"] }}
                         </td>
+
 
                         <td>
                             {{ paper["subject"] }}
                         </td>
 
+
                         <td>
+
                             <span class="status">
                                 {{ paper["status"] }}
                             </span>
+
                         </td>
 
+
                         <td>
+
                             <a
                                 class="qr"
                                 href="/qr/{{ paper['paper_id'] }}"
@@ -421,16 +503,23 @@
                             >
                                 View QR
                             </a>
+
                         </td>
 
                     </tr>
 
+
                     {% else %}
 
                     <tr>
-                        <td colspan="6" class="empty">
+
+                        <td
+                            colspan="6"
+                            class="empty"
+                        >
                             No examination papers available.
                         </td>
+
                     </tr>
 
                     {% endfor %}
@@ -444,70 +533,10 @@
     </div>
 
 
-    <!-- RECENT VERIFICATION ACTIVITY -->
+    <!-- VERIFICATION ACTIVITY -->
 
     <div class="section">
 
-        <h2>Recent Verification Activity</h2>
-
-        <div class="table-box">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Paper ID</th>
-                        <th>Action</th>
-                        <th>Verified By</th>
-                        <th>Time</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for log in logs %}
-
-                    <tr>
-
-                        <td>
-                            {{ log["paper_id"] }}
-                        </td>
-
-                        <td>
-                            {{ log["action"] }}
-                        </td>
-
-                        <td>
-                            {{ log["username"] }}
-                        </td>
-
-                        <td>
-                            {{ log["created_at"] or "N/A" }}
-                        </td>
-
-                    </tr>
-
-                    {% else %}
-
-                    <tr>
-                        <td colspan="4" class="empty">
-                            No verification activity yet.
-                        </td>
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</div>
-
-</body>
-</html>
+        <h2>
+            Recent Verification Activity
+        </h
