@@ -50,7 +50,10 @@ def init_db():
 
     conn = get_db()
 
-    # PAPERS
+    # --------------------------------------------------------
+    # PAPERS TABLE
+    # --------------------------------------------------------
+
     conn.execute("""
         CREATE TABLE IF NOT EXISTS papers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,7 +66,10 @@ def init_db():
         )
     """)
 
-    # PAPER MIGRATION
+    # --------------------------------------------------------
+    # PAPER TABLE MIGRATION
+    # --------------------------------------------------------
+
     paper_columns = [
         row["name"]
         for row in conn.execute(
@@ -83,7 +89,10 @@ def init_db():
             ADD COLUMN created_at TEXT
         """)
 
-    # LOGS
+    # --------------------------------------------------------
+    # LOGS TABLE
+    # --------------------------------------------------------
+
     conn.execute("""
         CREATE TABLE IF NOT EXISTS logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -94,7 +103,10 @@ def init_db():
         )
     """)
 
-    # LOG MIGRATION
+    # --------------------------------------------------------
+    # LOG TABLE MIGRATION
+    # --------------------------------------------------------
+
     log_columns = [
         row["name"]
         for row in conn.execute(
@@ -120,7 +132,10 @@ def init_db():
             ADD COLUMN action TEXT
         """)
 
-    # ALERTS
+    # --------------------------------------------------------
+    # ALERTS TABLE
+    # --------------------------------------------------------
+
     conn.execute("""
         CREATE TABLE IF NOT EXISTS alerts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -130,7 +145,10 @@ def init_db():
         )
     """)
 
+    # --------------------------------------------------------
     # DEMO PAPER
+    # --------------------------------------------------------
+
     demo = conn.execute("""
         SELECT *
         FROM papers
@@ -158,7 +176,10 @@ def init_db():
             now()
         ))
 
+    # --------------------------------------------------------
     # FIX EMPTY UNIVERSITY
+    # --------------------------------------------------------
+
     conn.execute("""
         UPDATE papers
         SET university = 'Not Provided'
@@ -259,7 +280,7 @@ def dashboard():
     """).fetchall()
 
     # --------------------------------------------------------
-    # RECENT LOGS
+    # RECENT VERIFICATION / SYSTEM LOGS
     # --------------------------------------------------------
 
     logs = conn.execute("""
@@ -395,7 +416,7 @@ def verify_paper(paper_id):
         ), 404
 
     # --------------------------------------------------------
-    # SUCCESS
+    # SUCCESSFUL VERIFICATION
     # --------------------------------------------------------
 
     conn.execute("""
@@ -441,6 +462,7 @@ def generate_qr(paper_id):
     conn.close()
 
     if paper is None:
+
         return "Paper not found", 404
 
     base_url = request.host_url.rstrip("/")
@@ -483,7 +505,7 @@ def generate_qr(paper_id):
 
 
 # ============================================================
-# ADD SECURE PAPER
+# ADD / SECURE PAPER
 # ============================================================
 
 @app.route(
@@ -503,9 +525,11 @@ def add_paper():
         ""
     ).strip()
 
+    # University is optional in the new dashboard.
+    # If not supplied, save "Not Provided".
     university = request.form.get(
         "university",
-        ""
+        "Not Provided"
     ).strip()
 
     exam = request.form.get(
@@ -518,15 +542,21 @@ def add_paper():
         ""
     ).strip()
 
+    if not university:
+        university = "Not Provided"
+
+    # --------------------------------------------------------
+    # VALIDATION
+    # --------------------------------------------------------
+
     if (
         not paper_id
-        or not university
         or not exam
         or not subject
     ):
 
         flash(
-            "Paper ID, University, Exam and Subject are required",
+            "Paper ID, Exam and Subject are required",
             "error"
         )
 
@@ -537,6 +567,10 @@ def add_paper():
     conn = get_db()
 
     try:
+
+        # ----------------------------------------------------
+        # INSERT PAPER
+        # ----------------------------------------------------
 
         conn.execute("""
             INSERT INTO papers (
@@ -556,6 +590,10 @@ def add_paper():
             "SECURED",
             now()
         ))
+
+        # ----------------------------------------------------
+        # CREATE PAPER SECURED LOG
+        # ----------------------------------------------------
 
         conn.execute("""
             INSERT INTO logs (
@@ -580,6 +618,8 @@ def add_paper():
         )
 
     except sqlite3.IntegrityError:
+
+        conn.rollback()
 
         flash(
             "Paper ID already exists",
